@@ -27,6 +27,13 @@ def updateSchedule(doctors, requests, previousSched, nextSched):
 
 
 
+def updateDoctors(doctors):
+	"""
+	requires:
+	ensures:
+	"""
+
+
 
 
 
