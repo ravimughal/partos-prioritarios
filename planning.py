@@ -30,11 +30,8 @@ def updateDoctors(previousdoctors, nextdoctors):
     with open(previousdoctors, 'r') as inFile:
         linhas = inFile.readlines()
 
-    with open(nextdoctors, 'w') as outFile:
-        outFile.writelines(linhas)
 
-
-updateDoctors('doctors14h00.txt', 'doctors14h30.txt')
+        return nextdoctors
 
 
 
