@@ -25,7 +25,6 @@ def updateSchedule(doctors, requests, previousSched, nextSched):
 	of the project (omitted here for the sake of readability).
 	"""
 
-
 def updateDoctors(previousdoctors, nextdoctors):
     with open(previousdoctors, 'r') as inFile:
         linhas = inFile.readlines()
