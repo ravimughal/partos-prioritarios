@@ -26,7 +26,12 @@ def updateSchedule(doctors, requests, previousSched, nextSched):
 	"""
 
 
+def updateDoctors(previousdoctors, nextdoctors):
+    with open(previousdoctors, 'r') as inFile:
+        linhas = inFile.readlines()
 
+
+        return nextdoctors
 
 
 
