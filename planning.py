@@ -28,12 +28,21 @@ def updateSchedule(doctors, requests, previousSched, nextSched):
 
 
 
+import datetime
+
 def updateDoctors(previousdoctors, nextdoctors):
     with open(previousdoctors, 'r') as inFile:
         linhas = inFile.readlines()
 
+    # Modificando a oitava e nona linhas
+    linhas[3] = '14h30\n'
+    linhas[7] = 'Manuel Frias, 2, 14h25, 85, 36h28\n'
+    linhas[8] = 'Carlos Sousa, 3, 12h10, 60, 28h34\n'
 
-        return nextdoctors
+    with open(nextdoctors, 'w') as outFile:
+        outFile.writelines(linhas)
+
+updateDoctors('doctors14h00.txt', 'doctors14h30.txt')
 
 
 
