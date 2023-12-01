@@ -26,12 +26,15 @@ def updateSchedule(doctors, requests, previousSched, nextSched):
 	"""
 
 
+def updateDoctors(previousdoctors, nextdoctors):
+    with open(previousdoctors, 'r') as inFile:
+        linhas = inFile.readlines()
 
-def updateDoctors(doctors):
-	"""
-	requires:
-	ensures:
-	"""
+    with open(nextdoctors, 'w') as outFile:
+        outFile.writelines(linhas)
+
+
+updateDoctors('doctors14h00.txt', 'doctors14h30.txt')
 
 
 
