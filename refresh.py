@@ -29,8 +29,11 @@ def plan(doctorsFileName, scheduleFileName, requestsFileName):
     scheduleFileName and requestsFileName, and are written in the same directory
     of the latter.
     """
-    pass
+    
+    with open('inputFile1.txt', 'r') as arquivo:
+        conteudo = arquivo.read()
+    
+    print(conteudo)
 
 
-        
-
+plan('a','b','c')
