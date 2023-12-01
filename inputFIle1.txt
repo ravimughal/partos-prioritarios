@@ -1,0 +1,9 @@
+Organization:
+SmartH
+Hour:
+14h00
+Day:
+08:12:2023
+Doctors:
+Manuel Frias, 2, 14h25, 85, 36h28
+Carlos Sousa, 3, 12h10, 60, 28h34
