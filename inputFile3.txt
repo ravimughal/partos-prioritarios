@@ -1,8 +1,0 @@
-Organization:
-SmartH
-Hour:
-14h30
-Day:
-08:12:2023
-Mothers:
-Zulmira Zacarias, 33, red, low

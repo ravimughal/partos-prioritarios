@@ -5,6 +5,8 @@
 # 75000 Alberto Albertino 
 # 75001 Maria Marisa
 
+import infoFromFiles
+
 
 
 def plan(doctorsFileName, scheduleFileName, requestsFileName):
@@ -30,10 +32,6 @@ def plan(doctorsFileName, scheduleFileName, requestsFileName):
     of the latter.
     """
     
-    with open('inputFile1.txt', 'r') as arquivo:
-        conteudo = arquivo.read()
-    
-    print(conteudo)
-
-
+    doctors = infoFromFiles.readDoctorsFile('doctors10h00.txt')
+    print(doctors)
 plan('a','b','c')
