@@ -20,8 +20,19 @@ def readDoctorsFile(fileName):
     the file fileName (with all the info pieces belonging to that doctor),
     following the order provided in the lines of the file.
     """
-    pass
+    with open(fileName, 'r', encoding='utf-8') as file:
+        lines = file.readlines()
+        start_finish_lines = lines[7:-1]
 
+    doctors = []
+    for i in start_finish_lines:
+        doctors.append(i.split(', '))
+
+    for i in doctors:
+        if '\n' in i[4]:
+            i[4] = i[4].replace('\n', '')
+
+    return doctors
 
 def readRequestsFile(fileName):
     """
@@ -30,7 +41,7 @@ def readRequestsFile(fileName):
     
     """
 
-    inFile = removeHeader(open(fileName, "r"))       
+    """inFile = removeHeader(open(fileName, "r"))       
 
     requestsList = [] 
     for line in inFile:
@@ -40,3 +51,7 @@ def readRequestsFile(fileName):
     return requestsList
 
 
+    """
+
+if __name__ == '__main__':
+    print(readDoctorsFile('doctors10h30.txt'))

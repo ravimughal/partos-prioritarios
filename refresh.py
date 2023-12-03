@@ -5,6 +5,8 @@
 # 75000 Alberto Albertino 
 # 75001 Maria Marisa
 
+import infoFromFiles
+
 
 
 def plan(doctorsFileName, scheduleFileName, requestsFileName):
@@ -29,8 +31,7 @@ def plan(doctorsFileName, scheduleFileName, requestsFileName):
     scheduleFileName and requestsFileName, and are written in the same directory
     of the latter.
     """
-    pass
-
-
-        
-
+    
+    doctors = infoFromFiles.readDoctorsFile('doctors10h00.txt')
+    print(doctors)
+plan('a','b','c')
