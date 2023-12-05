@@ -5,9 +5,10 @@
 # 75000 Alberto Albertino 
 # 75001 Maria Marisa
 
+import infoFromFiles
 
 def updateSchedule(doctors, requests, previousSched, nextSched):
-	"""
+    """
     Update birth assistance schedule assigning the given birth assistance requested
     to the given doctors, taking into account a previous schedule.
 	

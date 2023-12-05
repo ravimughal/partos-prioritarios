@@ -6,10 +6,12 @@
 # 75001 Maria Marisa
 
 import infoFromFiles
+import planning
 
 
 
 def plan(doctorsFileName, scheduleFileName, requestsFileName):
+   
     """
     Runs the birthPlan application.
 
@@ -32,6 +34,20 @@ def plan(doctorsFileName, scheduleFileName, requestsFileName):
     of the latter.
     """
     
-    doctors = infoFromFiles.readDoctorsFile('doctors10h00.txt')
-    print(doctors)
-plan('a','b','c')
+
+        
+    return print('oi')
+
+
+resultado = plan('doctors10h00','schedule10h00','requests10h30')
+
+
+
+
+
+    
+    
+
+
+        
+

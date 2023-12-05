@@ -43,20 +43,20 @@ def removeHeader(fileName):
 def readRequestsFile(fileName):
     """
     Reads a file with a list of requested assistances with a given file name into a collection.
-
-    
     """
 
     inFile = removeHeader(fileName)       
 
-    requestsList = [] 
+    requestsList = []
     for line in inFile:
-        requestData = line.rstrip().split(", ")
-        requestsList.append(requestData)        
+        data = line.strip().split(', ')
+        requestsList.append(data)
 
     return requestsList
 
 
 
-if __name__ == '__main__':
-    print(readDoctorsFile('doctors10h30.txt'))
+
+    
+
+
