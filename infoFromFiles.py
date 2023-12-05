@@ -47,7 +47,7 @@ def readRequestsFile(fileName):
     
     """
 
-    inFile = removeHeader(open(fileName, "r"))       
+    inFile = removeHeader(fileName)       
 
     requestsList = [] 
     for line in inFile:
