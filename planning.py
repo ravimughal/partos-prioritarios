@@ -5,6 +5,7 @@
 # 75000 Alberto Albertino 
 # 75001 Maria Marisa
 
+import infoFromFiles
 
 def updateSchedule(doctors, requests, previousSched, nextSched):
 	"""
@@ -25,13 +26,14 @@ def updateSchedule(doctors, requests, previousSched, nextSched):
 	of the project (omitted here for the sake of readability).
 	"""
 
+        
+	
+	return requests
+
+doctors_data = infoFromFiles.readDoctorsFile('doctors10h00.txt')
+requests_data = infoFromFiles.readRequestsFile('requests10h30.txt')
 
 
-
-
-
-
-
-
-
-
+result = updateSchedule(doctors_data, requests_data, 2, 1)
+                   
+print(result)
