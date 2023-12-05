@@ -25,19 +25,16 @@ def readDoctorsFile(fileName):
     content = removeHeader(fileName)
 
     doctors = []
-    for i in content:
-        doctors.append(i.split(', '))
-
-    for i in doctors:
-        if '\n' in i[4]:
-            i[4] = i[4].replace('\n', '')
-
+    for line in content:
+        data = line.strip().split(', ')
+        doctors.append(data)
     return doctors
 
 def removeHeader(fileName):
     with open(fileName, 'r', encoding='utf-8') as file:
         lines = file.readlines()
         content = lines[NUM_HEADER_LINES:-1]
+
     return content
 
 def readRequestsFile(fileName):
@@ -55,8 +52,7 @@ def readRequestsFile(fileName):
     return requestsList
 
 
-
-
-    
+if __name__ == '__main__':
+    print(readDoctorsFile('doctors10h00.txt'))
 
 
