@@ -5,9 +5,13 @@
 # 75000 Alberto Albertino 
 # 75001 Maria Marisa
 
+import infoFromFiles
+import planning
+
 
 
 def plan(doctorsFileName, scheduleFileName, requestsFileName):
+   
     """
     Runs the birthPlan application.
 
@@ -29,6 +33,19 @@ def plan(doctorsFileName, scheduleFileName, requestsFileName):
     scheduleFileName and requestsFileName, and are written in the same directory
     of the latter.
     """
+    
+
+        
+    return print('oi')
+
+
+resultado = plan('doctors10h00','schedule10h00','requests10h30')
+
+
+
+
+
+    
     
 
 

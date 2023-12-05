@@ -37,21 +37,22 @@ def readDoctorsFile(fileName):
 def readRequestsFile(fileName):
     """
     Reads a file with a list of requested assistances with a given file name into a collection.
-
-    
     """
 
-    """inFile = removeHeader(open(fileName, "r"))       
+    with open(fileName, 'r', encoding='utf-8') as file:
+        lines = file.readlines()
+        start_finish_lines = lines[7:-1]
 
-    requestsList = [] 
-    for line in inFile:
-        requestData = line.rstrip().split(", ")
-        requestsList.append(requestData)        
+    requestsList = []
+    for line in start_finish_lines:
+        data = line.strip().split(', ')
+        requestsList.append(data)
 
     return requestsList
 
 
-    """
 
-if __name__ == '__main__':
-    print(readDoctorsFile('doctors10h30.txt'))
+
+    
+
+
