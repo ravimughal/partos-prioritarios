@@ -6,7 +6,6 @@
 # 75001 Maria Marisa
 
 import infoFromFiles
-import planning
 
 
 
@@ -34,13 +33,13 @@ def plan(doctorsFileName, scheduleFileName, requestsFileName):
     of the latter.
     """
     
-
+    doctors = infoFromFiles.readDoctorsFile(doctorsFileName)
         
-    return print('oi')
+    return doctors
 
 
-resultado = plan('doctors10h00','schedule10h00','requests10h30')
-
+resultado = plan('doctors10h00.txt','schedule10h00.txt','requests10h30.txt')
+print(resultado)
 
 
 
