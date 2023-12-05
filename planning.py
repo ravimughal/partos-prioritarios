@@ -31,10 +31,3 @@ def updateDoctors(previousdoctors, nextdoctors):
 
 
         return nextdoctors
-
-
-
-
-
-
-

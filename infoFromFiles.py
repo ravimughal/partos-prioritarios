@@ -5,6 +5,7 @@
 # 75000 Alberto Albertino 
 # 75001 Maria Marisa
 
+from constants import *
 
 
 def readDoctorsFile(fileName):
@@ -20,12 +21,11 @@ def readDoctorsFile(fileName):
     the file fileName (with all the info pieces belonging to that doctor),
     following the order provided in the lines of the file.
     """
-    with open(fileName, 'r', encoding='utf-8') as file:
-        lines = file.readlines()
-        start_finish_lines = lines[7:-1]
+
+    content = removeHeader(fileName)
 
     doctors = []
-    for i in start_finish_lines:
+    for i in content:
         doctors.append(i.split(', '))
 
     for i in doctors:
@@ -34,6 +34,12 @@ def readDoctorsFile(fileName):
 
     return doctors
 
+def removeHeader(fileName):
+    with open(fileName, 'r', encoding='utf-8') as file:
+        lines = file.readlines()
+        content = lines[NUM_HEADER_LINES:-1]
+    return content
+
 def readRequestsFile(fileName):
     """
     Reads a file with a list of requested assistances with a given file name into a collection.
@@ -41,7 +47,7 @@ def readRequestsFile(fileName):
     
     """
 
-    """inFile = removeHeader(open(fileName, "r"))       
+    inFile = removeHeader(open(fileName, "r"))       
 
     requestsList = [] 
     for line in inFile:
@@ -51,7 +57,6 @@ def readRequestsFile(fileName):
     return requestsList
 
 
-    """
 
 if __name__ == '__main__':
     print(readDoctorsFile('doctors10h30.txt'))
