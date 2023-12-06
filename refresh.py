@@ -7,7 +7,7 @@
 
 import infoFromFiles
 import planning
-
+import dateTime
 
 
 def plan(doctorsFileName, scheduleFileName, requestsFileName):
@@ -34,12 +34,20 @@ def plan(doctorsFileName, scheduleFileName, requestsFileName):
     of the latter.
     """
     
+    doctors_list = infoFromFiles.readDoctorsFile(doctorsFileName)
+    request_list = infoFromFiles.readRequestsFile(requestsFileName)
+    
+    # o next_time é uma string que será usada para definir o nome do ficheiro (voce precisa usar o dateTime)
+    # Por exemplo, se o horario é schedule10h00.txt, o next_time precisa ser schedule10h30
+    
+    next_time = 0
 
         
-    return print('oi')
+    return planning.updateSchedule(doctors_list,request_list,scheduleFileName,next_time)
 
 
-resultado = plan('doctors10h00','schedule10h00','requests10h30')
+resultado = plan('doctors10h00.txt','schedule10h00.txt','requests10h30.txt')
+
 
 
 
