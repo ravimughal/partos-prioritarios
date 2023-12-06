@@ -45,9 +45,11 @@ def plan(doctorsFileName, scheduleFileName, requestsFileName):
         
     return planning.updateSchedule(doctors_list,request_list,scheduleFileName,next_time)
 
+if __name__ == '__main__':
 
-resultado = plan('doctors10h00.txt','schedule10h00.txt','requests10h30.txt')
-
+    #resultado = plan('doctors10h00.txt','schedule10h00.txt','requests10h30.txt') #testset1
+    #resultado = plan('doctors14h00.txt','schedule14h00.txt','requests14h30.txt') #testset2
+    resultado = plan('doctors16h00.txt','schedule16h00.txt','requests16h30.txt') #testset3
 
 
 
