@@ -56,3 +56,17 @@ if __name__ == '__main__':
     print(readDoctorsFile('doctors10h00.txt'))
 
 
+"""
+def readRequestsFile(fileName):
+
+    with open(fileName, 'r', encoding='utf-8') as file:
+        lines = file.readlines()
+        start_finish_lines = lines[7:]
+
+    requestsList = []
+    for line in start_finish_lines:
+        data = line.strip().split(', ')
+        requestsList.append(data)
+
+    return requestsList
+"""
