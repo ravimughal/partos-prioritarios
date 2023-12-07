@@ -21,11 +21,25 @@ def updateSchedule(doctors, requests, previousSched, nextTime):
     """
 
 
-    request_order = priority(requests)
+    request_order = priorityRequests(requests)
     print(request_order)
 
-def priority(list):
-    
+def priorityRequests(list):
+    """
+    Organiza uma lista de sublistas com informações de risco e pulseira por prioridade.
+
+    A função recebe uma lista de sublistas, onde cada sublista contém informações.
+    As informações de risco estão no índice 3 e as informações da pulseira estão no índice 2.
+    A função organiza a lista em três categorias de risco: 'alto', 'médio' e 'baixo'.
+    Em seguida, organiza cada categoria pelo valor da pulseira em ordem decrescente.
+
+    Parâmetros:
+    - list: Uma lista de sublistas contendo informações. Cada sublista deve ter pelo menos
+            os índices 2 (pulseira) e 3 (risco).
+
+    Retorna:
+    Uma lista organizada em ordem de prioridade, primeiro por risco e depois por cor da pulseira.
+    """
 
     index_of_risk = 3
     index_of_bracelet = 2
@@ -46,12 +60,10 @@ def priority(list):
             elif risk == 'low':
                 low_risk_list.append(sublist)
 
-   
     final_list.extend(high_risk_list)
     final_list.extend(medium_risk_list)
     final_list.extend(low_risk_list)
 
-  
     red_bracelet_list = []
     yellow_bracelet_list = []
     green_bracelet_list = []
@@ -64,7 +76,7 @@ def priority(list):
         elif sublist[index_of_bracelet] == 'green':
             green_bracelet_list.append(sublist)
 
-   
+
     red_bracelet_list = sorted(red_bracelet_list, key=lambda x: (int(x[1]), 0), reverse=True)
     yellow_bracelet_list = sorted(yellow_bracelet_list, key=lambda x: (int(x[1]), 1), reverse=True)
     green_bracelet_list = sorted(green_bracelet_list, key=lambda x: (int(x[1]), 2), reverse=True)
