@@ -21,7 +21,11 @@ def updateSchedule(doctors, requests, previousSched, nextTime):
     """
 
 
+    request_order = priority(requests)
+    print(request_order)
 
+def priority(list):
+    
 
     index_of_risk = 3
     index_of_bracelet = 2
@@ -32,7 +36,7 @@ def updateSchedule(doctors, requests, previousSched, nextTime):
 
     final_list = []
 
-    for sublist in requests:
+    for sublist in list:
         if index_of_risk < len(sublist):
             risk = sublist[index_of_risk]
             if risk == 'high':
@@ -82,22 +86,11 @@ def updateSchedule(doctors, requests, previousSched, nextTime):
         for sublist in green_bracelet_list:
             if int(sublist[1]) == int(green_bracelet_list[0][1]):
                 final_list.append(sublist)
+    
+    return final_list
 
-    print('lista final: ', final_list)
-    print()
-    print('high: ', high_risk_list)
-    print()
-    print('medium: ', medium_risk_list)
-    print()
-    print('low: ', low_risk_list)
-    print()
-    print('red: ', red_bracelet_list)
-    print()
-    print('yellow: ', yellow_bracelet_list)
-    print()
-    print('green: ', green_bracelet_list)
 
 if __name__ == '__main__':
-    doctors_data = infoFromFiles.readDoctorsFile('doctors10h00.txt')
-    requests_data = infoFromFiles.readRequestsFile('requests10h30.txt')
+    doctors_data = infoFromFiles.readDoctorsFile('doctors16h00.txt')
+    requests_data = infoFromFiles.readRequestsFile('requests16h30.txt')
     result = updateSchedule(doctors_data, requests_data, 1, 2)
