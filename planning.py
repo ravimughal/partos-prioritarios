@@ -1,4 +1,5 @@
 import infoFromFiles
+import dateTime
 
 def updateSchedule(doctors, requests, previousSched, nextTime):
     
@@ -36,8 +37,9 @@ def priorityDoctors(doctors):
     category1 = []
     category2 = []
     category3 = []
-    
     final_list = []
+    
+
     for sublist in doctors:
         if category < len(sublist):
             risk = sublist[category]
@@ -52,8 +54,12 @@ def priorityDoctors(doctors):
     final_list.extend(category2)
     final_list.extend(category1)
 
-    print(final_list)
-    return final_list
+    ordened_time = sorted(final_list, key=lambda x: dateTime.timeToMinutes(x[2]))
+
+    # Exibindo os dados ordenados
+    for item in ordened_time:
+        print(item)
+
 
 def priorityRequests(requests):
     """

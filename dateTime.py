@@ -14,8 +14,6 @@ def hourToInt(time):
     t = time.split("h")
     return int(t[0])
 
-
-
 def minutesToInt(time):
     """
 
@@ -23,6 +21,14 @@ def minutesToInt(time):
     t = time.split("h")
     return int(t[1])
     
+
+def timeToMinutes(time):
+    """
+    
+    """
+    hour = hourToInt(time)
+    minutes = minutesToInt(time)
+    return (hour * 60 + minutes)
 
 
 def intToTime(hour, minutes):

@@ -5,8 +5,8 @@ Hour:
 Day: 
 10:12:2023
 Doctors:
-Guilherme Gaspar, 2, 14h20, 40, 39h50
-Horácio Horta, 3, 14h20, 120, 7h20
-Ildefonso Inácio, 2, 14h20, 40, 39h50
+Guilherme Gaspar, 2, 14h25, 40, 39h50
+Horácio Horta, 1, 14h20, 120, 7h20
+Ildefonso Inácio, 2, 14h10, 40, 39h50
 José Justo, 2, 14h20, 40, 15h00
 
