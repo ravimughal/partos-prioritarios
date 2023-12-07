@@ -23,8 +23,39 @@ def updateSchedule(doctors, requests, previousSched, nextTime):
 
     request_order = priorityRequests(requests)
     print(request_order)
+    doctors_order = priorityDoctors(doctors)
+    print(doctors_order)
 
-def priorityRequests(list):
+def priorityDoctors(doctors):
+    name = 0
+    category = 1
+    last_childbirth = 2
+    daily_work = 3
+    weekly_work = 4
+
+    category1 = []
+    category2 = []
+    category3 = []
+    
+    final_list = []
+    for sublist in doctors:
+        if category < len(sublist):
+            risk = sublist[category]
+            if risk == '1':
+                category1.append(sublist)
+            elif risk == '2':
+                category2.append(sublist)
+            elif risk == '3':
+                category3.append(sublist)
+
+    final_list.extend(category3)
+    final_list.extend(category2)
+    final_list.extend(category1)
+
+    print(final_list)
+    return final_list
+
+def priorityRequests(requests):
     """
     Organiza uma lista de sublistas com informações de risco e pulseira por prioridade.
 
@@ -50,7 +81,7 @@ def priorityRequests(list):
 
     final_list = []
 
-    for sublist in list:
+    for sublist in requests:
         if index_of_risk < len(sublist):
             risk = sublist[index_of_risk]
             if risk == 'high':
@@ -103,6 +134,6 @@ def priorityRequests(list):
 
 
 if __name__ == '__main__':
-    doctors_data = infoFromFiles.readDoctorsFile('doctors16h00.txt')
+    doctors_data = infoFromFiles.readDoctorsFile('doctors14h00.txt')
     requests_data = infoFromFiles.readRequestsFile('requests16h30.txt')
     result = updateSchedule(doctors_data, requests_data, 1, 2)
