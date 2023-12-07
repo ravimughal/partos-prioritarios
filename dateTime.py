@@ -20,7 +20,8 @@ def minutesToInt(time):
     """
 
     """
-    pass #TODO
+    t = time.split("h")
+    return int(t[1])
     
 
 
