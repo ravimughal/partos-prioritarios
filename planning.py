@@ -54,11 +54,9 @@ def priorityDoctors(doctors):
     final_list.extend(category2)
     final_list.extend(category1)
 
-    ordened_time = sorted(final_list, key=lambda x: dateTime.timeToMinutes(x[2]))
+    ordened_time = sorted(final_list, key=lambda x: dateTime.timeToMinutes(x[last_childbirth]))
 
-    # Exibindo os dados ordenados
-    for item in ordened_time:
-        print(item)
+    return ordened_time
 
 
 def priorityRequests(requests):
