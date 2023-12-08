@@ -66,7 +66,17 @@ def emptyList(listOfLists):
     """
     return [sublist for sublist in listOfLists if any(sublist)]
 
+def readScheduleFile(file):
+    content = removeHeader(file)
+    scheduleList = []
+    for line in content:
+        data = line.strip().split(', ')
+        scheduleList.append(data)
+
+    scheduleList = emptyList(scheduleList)
+    return scheduleList
+
 if __name__ == '__main__':
-    print(readDoctorsFile('doctors14h00.txt'))
+    print(readScheduleFile('schedule16h30.txt'))
 
 

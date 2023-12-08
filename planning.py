@@ -25,8 +25,8 @@ def updateSchedule(doctors, requests, previousSched, nextTime):
 
     request_order = priorityRequests(requests)
     doctors_order = priorityDoctors(doctors)
+    print(request_order)
     print(doctors_order)
-
 def priorityDoctors(doctors):
 
 
@@ -43,10 +43,7 @@ def priorityDoctors(doctors):
             )
         )
 
-    for i in ordened_time:
-        print(i)
-
-    return 
+    return ordened_time
 
 
 def priorityRequests(requests):
