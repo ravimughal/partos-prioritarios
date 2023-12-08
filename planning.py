@@ -47,15 +47,13 @@ def combinationsDocRequest(doctors, requests):
     combinations = []
 
     for mother in requests:
-        
         for doctor in doctors: 
-            print(doctor)
             if mother[MOTH_RISK_IDX] == 'high' and int(doctor[DOCT_CATEGORY_IDX]) >= 2:
-                combinations.append([mother[MOTH_NAME_IDX], doctor[DOCT_NAME_IDX]])
+                combinations.append([doctor[DOCT_CHILDBIRTH_IDX],mother[MOTH_NAME_IDX], doctor[DOCT_NAME_IDX]])
                 doctors = updateDoctors(doctor, doctors)
                 break
             elif mother[MOTH_RISK_IDX] != 'high':
-                combinations.append([mother[MOTH_NAME_IDX], doctor[DOCT_NAME_IDX]])
+                combinations.append([doctor[DOCT_CHILDBIRTH_IDX],mother[MOTH_NAME_IDX], doctor[DOCT_NAME_IDX]])
                 doctors = updateDoctors(doctor, doctors)
                 break
 
