@@ -48,17 +48,17 @@ def priorityDoctors(doctors):
 
 def combinationsDocRequest(doctors, requests):
     combinations = []
-    
+
     for mother in requests:
-        print('mother', mother)
         for doctor in doctors:
-            if mother[MOTH_RISK_IDX] == 'high' and int(doctor[DOCT_CATEGORY_IDX]) >=2:
+            if mother[MOTH_RISK_IDX] == 'high' and int(doctor[DOCT_CATEGORY_IDX]) >= 2:
                 combinations.append([mother[MOTH_NAME_IDX], doctor[DOCT_NAME_IDX]])
-                continue
+                break
+            elif mother[MOTH_RISK_IDX] != 'high':
+                combinations.append([mother[MOTH_NAME_IDX], doctor[DOCT_NAME_IDX]])
+                break
             
-
     print(combinations)
-
 def priorityRequests(requests):
     """
     Organiza uma lista de sublistas com informações de risco e pulseira por prioridade.
