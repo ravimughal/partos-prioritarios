@@ -47,7 +47,17 @@ def priorityDoctors(doctors):
     return ordened_time
 
 def combinationsDocRequest(doctors, requests):
-    print(requests)
+    combinations = []
+    
+    for mother in requests:
+        print('mother', mother)
+        for doctor in doctors:
+            if mother[MOTH_RISK_IDX] == 'high' and int(doctor[DOCT_CATEGORY_IDX]) >=2:
+                combinations.append([mother[MOTH_NAME_IDX], doctor[DOCT_NAME_IDX]])
+                continue
+            
+
+    print(combinations)
 
 def priorityRequests(requests):
     """
@@ -121,7 +131,7 @@ def priorityRequests(requests):
         for sublist in green_bracelet_list:
             if int(sublist[1]) == int(green_bracelet_list[0][1]):
                 final_list.append(sublist)
-    print("Depois de reemanipular",final_list)
+    #print("Depois de reemanipular",final_list)
     ####################################################
     return final_list
 
