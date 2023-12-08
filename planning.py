@@ -47,8 +47,7 @@ def priorityDoctors(doctors):
     return ordened_time
 
 def combinationsDocRequest(doctors, requests):
-    for mother in requests:
-        pass
+    print(requests)
 
 def priorityRequests(requests):
     """
@@ -103,7 +102,7 @@ def priorityRequests(requests):
     yellow_bracelet_list = sorted(yellow_bracelet_list, key=lambda x: (int(x[1]), 1), reverse=True)
     green_bracelet_list = sorted(green_bracelet_list, key=lambda x: (int(x[1]), 2), reverse=True)
 
-    print('Antes de reemanipular: ',final_list)
+    #print('Antes de reemanipular: ',final_list)
     ######################################################
     # TRECHO DE CÓDIGO A SER CONCERTADO
     final_list = []
