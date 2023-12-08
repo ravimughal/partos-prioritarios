@@ -8,6 +8,7 @@
 import infoFromFiles
 import planning
 import dateTime
+import sys
 
 
 def plan(doctorsFileName, scheduleFileName, requestsFileName):
@@ -47,7 +48,13 @@ def plan(doctorsFileName, scheduleFileName, requestsFileName):
     return 0
 
 if __name__ == '__main__':
-
+    """
+    doctors = sys.argv[1]
+    schedule = sys.argv[2]
+    requests = sys.argv[3]
+    resultado = plan(doctors, schedule, requests)
+    """
+    
     resultado = plan('doctors10h00.txt','schedule10h00.txt','requests10h30.txt') #testset1
     #resultado = plan('doctors14h00.txt','schedule14h00.txt','requests14h30.txt') #testset2
     #resultado = plan('doctors16h00.txt','schedule16h00.txt','requests16h30.txt') #testset3

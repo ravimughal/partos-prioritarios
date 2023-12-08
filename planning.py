@@ -42,6 +42,21 @@ def priorityDoctors(doctors):
 
     return ordened_time
 
+
+def combinationsDocRequest(doctors, requests):
+    combinations = []
+
+    for mother in requests:
+        for doctor in doctors:
+            if mother[MOTH_RISK_IDX] == 'high' and int(doctor[DOCT_CATEGORY_IDX]) >= 2:
+                combinations.append([mother[MOTH_NAME_IDX], doctor[DOCT_NAME_IDX]])
+                break
+            elif mother[MOTH_RISK_IDX] != 'high':
+                combinations.append([mother[MOTH_NAME_IDX], doctor[DOCT_NAME_IDX]])
+                break
+            
+    print(combinations)
+
 def priorityRequests(requests):
     
     """
@@ -107,7 +122,9 @@ def priorityRequests(requests):
     final_list.extend(medium_risk_list)
     final_list.extend(low_risk_list)
 
+
     print('Final List:', final_list)
+
 
     return sorted(final_list, key=lambda x: x[MOTH_NAME_IDX])
 

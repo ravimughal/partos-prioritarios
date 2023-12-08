@@ -30,6 +30,18 @@ def timeToMinutes(time):
     minutes = minutesToInt(time)
     return (hour * 60 + minutes)
 
+def minutesToHour(minutes):
+    horas = minutes // 60
+    minutos_restantes = minutes % 60
+
+    # Formata a string no estilo HHhMM
+    formato_horas = "{:02}h{:02}".format(horas, minutos_restantes)
+
+    return formato_horas
+
+def sumHours(time1, time2):
+    total_minutes = timeToMinutes(time1) + timeToMinutes(time2)
+    return minutesToHour(total_minutes)
 
 def timeToDailyPause(time):
     """
@@ -80,4 +92,5 @@ def intToTime(hour, minutes):
     return h + "h" + m
 
 if __name__ == '__main__':
-    print(timeToDailyPause(440))
+    #print(sumHours('0h20', '19h30'))
+    pass
