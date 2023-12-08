@@ -1,4 +1,6 @@
 import infoFromFiles
+import dateTime
+from constants import *
 
 def updateSchedule(doctors, requests, previousSched, nextTime):
     
@@ -19,22 +21,54 @@ def updateSchedule(doctors, requests, previousSched, nextTime):
     assigned according to the conditions indicated in the general specification
     of the project (omitted here for the sake of readability).
     """
+     
+    request_order = priorityRequests(requests)
+    doctors_order = priorityDoctors(doctors)
+    return [request_order, doctors_order]
 
+def priorityDoctors(doctors):
+    final_list = doctors
 
+    # ordena médicos por primeiro disponível e considerando os critérios de desempate
+    ordened_time = sorted(
+        final_list, key=lambda x: (
+            dateTime.timeToMinutes(x[DOCT_CHILDBIRTH_IDX]),
+            -int(x[DOCT_CATEGORY_IDX]),  # categoria decrescente
+            -int(dateTime.timeToDailyPause(x[DOCT_DAILYWORK_IDX])),  # menos tempo para pausa diaria
+            -int(dateTime.timeToWeeklyPause(x[DOCT_WEEKLYWORK_IDX])),  # menos tempo para pausa semanal
+            x[DOCT_NAME_IDX]  # ordem lexicográfica
+        )
+    )
 
+    return ordened_time
 
-    index_of_risk = 3
-    index_of_bracelet = 2
+def priorityRequests(requests):
+    
+    """
+    Organiza uma lista de sublistas com informações de risco e pulseira por prioridade.
 
+    A função recebe uma lista de sublistas, onde cada sublista contém informações.
+    As informações de risco estão no índice 3 e as informações da pulseira estão no índice 2.
+    A função organiza a lista em três categorias de risco: 'alto', 'médio' e 'baixo'.
+    Em seguida, organiza cada categoria pelo valor da pulseira em ordem decrescente.
+
+    Parâmetros:
+    - list: Uma lista de sublistas contendo informações. Cada sublista deve ter pelo menos
+            os índices 2 (pulseira) e 3 (risco).
+
+    Retorna:
+    Uma lista organizada em ordem de prioridade, primeiro por risco e depois por cor da pulseira.
+    """
+     
     high_risk_list = []
     medium_risk_list = []
     low_risk_list = []
-
+    PRIORITY_COLOR = ['red', 'yellow', 'green']
     final_list = []
 
     for sublist in requests:
-        if index_of_risk < len(sublist):
-            risk = sublist[index_of_risk]
+        if MOTH_RISK_IDX < len(sublist):
+            risk = sublist[MOTH_RISK_IDX]
             if risk == 'high':
                 high_risk_list.append(sublist)
             elif risk == 'medium':
@@ -42,62 +76,46 @@ def updateSchedule(doctors, requests, previousSched, nextTime):
             elif risk == 'low':
                 low_risk_list.append(sublist)
 
-   
+    # ordem das pulseiras: red > yellow > green
+    high_risk_list = sorted(
+        high_risk_list, key=lambda x: (
+            x[MOTH_RISK_IDX],  # risco em ordem crescente
+            PRIORITY_COLOR.index(x[MOTH_BRACELET_IDX]),  # prioridade da pulseira
+            -int(x[MOTH_BRACELET_IDX]) if x[MOTH_BRACELET_IDX].isdigit() else 0,  # idade em ordem decrescente
+            x[MOTH_NAME_IDX]  # ordem lexicográfica
+        )
+    )
+    medium_risk_list = sorted(
+        medium_risk_list, key=lambda x: (
+            x[MOTH_RISK_IDX],
+            PRIORITY_COLOR.index(x[MOTH_BRACELET_IDX]),  # prioridade da pulseira
+            -int(x[MOTH_BRACELET_IDX]) if x[MOTH_BRACELET_IDX].isdigit() else 0,  # idade em ordem decrescente
+            x[MOTH_NAME_IDX]
+        )
+    )
+    low_risk_list = sorted(
+        low_risk_list, key=lambda x: (
+            x[MOTH_RISK_IDX],
+            PRIORITY_COLOR.index(x[MOTH_BRACELET_IDX]),  # prioridade da pulseira
+            -int(x[MOTH_BRACELET_IDX]) if x[MOTH_BRACELET_IDX].isdigit() else 0,  # idade em ordem decrescente
+            x[MOTH_NAME_IDX]
+        )
+    )
+
+    # Adiciona critério de desempate para nome lexicográfico
     final_list.extend(high_risk_list)
     final_list.extend(medium_risk_list)
     final_list.extend(low_risk_list)
 
-  
-    red_bracelet_list = []
-    yellow_bracelet_list = []
-    green_bracelet_list = []
+    print('Final List:', final_list)
 
-    for sublist in final_list:
-        if sublist[index_of_bracelet] == 'red':
-            red_bracelet_list.append(sublist)
-        elif sublist[index_of_bracelet] == 'yellow':
-            yellow_bracelet_list.append(sublist)
-        elif sublist[index_of_bracelet] == 'green':
-            green_bracelet_list.append(sublist)
-
-   
-    red_bracelet_list = sorted(red_bracelet_list, key=lambda x: (int(x[1]), 0), reverse=True)
-    yellow_bracelet_list = sorted(yellow_bracelet_list, key=lambda x: (int(x[1]), 1), reverse=True)
-    green_bracelet_list = sorted(green_bracelet_list, key=lambda x: (int(x[1]), 2), reverse=True)
-
-    
-    final_list = []
-
-    if len(red_bracelet_list) > 0:
-        for sublist in red_bracelet_list:
-            if int(sublist[1]) == int(red_bracelet_list[0][1]):
-                final_list.append(sublist)
-
-    if len(yellow_bracelet_list) > 0:
-        for sublist in yellow_bracelet_list:
-            if int(sublist[1]) == int(yellow_bracelet_list[0][1]):
-                final_list.append(sublist)
-
-    if len(green_bracelet_list) > 0:
-        for sublist in green_bracelet_list:
-            if int(sublist[1]) == int(green_bracelet_list[0][1]):
-                final_list.append(sublist)
-
-    print('lista final: ', final_list)
-    print()
-    print('high: ', high_risk_list)
-    print()
-    print('medium: ', medium_risk_list)
-    print()
-    print('low: ', low_risk_list)
-    print()
-    print('red: ', red_bracelet_list)
-    print()
-    print('yellow: ', yellow_bracelet_list)
-    print()
-    print('green: ', green_bracelet_list)
+    return sorted(final_list, key=lambda x: x[MOTH_NAME_IDX])
 
 if __name__ == '__main__':
-    doctors_data = infoFromFiles.readDoctorsFile('doctors10h00.txt')
-    requests_data = infoFromFiles.readRequestsFile('requests10h30.txt')
-    result = updateSchedule(doctors_data, requests_data, 1, 2)
+    doctors_data = infoFromFiles.readDoctorsFile('doctors16h00.txt')
+    requests_data = infoFromFiles.readRequestsFile('requests16h30.txt')
+    
+    schedule_data = infoFromFiles.readScheduleFile('schedule16h00.txt')
+    result = updateSchedule(doctors_data, requests_data, schedule_data, 2)
+    request_order = result[0]
+    doctors_order = result[1]
