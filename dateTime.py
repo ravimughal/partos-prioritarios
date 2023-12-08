@@ -31,6 +31,14 @@ def timeToMinutes(time):
     return (hour * 60 + minutes)
 
 
+def leftToPause(time):
+    time = int(time)
+    
+    if time >= 240:
+        return 480 - time
+    else:
+        return 240 - time
+
 def intToTime(hour, minutes):
     """
 
@@ -46,12 +54,5 @@ def intToTime(hour, minutes):
 
     return h + "h" + m
 
-
-
-
-
-
-
-
-
-
+if __name__ == '__main__':
+    print(leftToPause(440))

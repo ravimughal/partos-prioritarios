@@ -23,7 +23,6 @@ def updateSchedule(doctors, requests, previousSched, nextTime):
 
 
     request_order = priorityRequests(requests)
-    print(request_order)
     doctors_order = priorityDoctors(doctors)
     print(doctors_order)
 
@@ -34,29 +33,20 @@ def priorityDoctors(doctors):
     daily_work = 3
     weekly_work = 4
 
-    category1 = []
-    category2 = []
-    category3 = []
-    final_list = []
-    
+    final_list = doctors
 
-    for sublist in doctors:
-        if category < len(sublist):
-            risk = sublist[category]
-            if risk == '1':
-                category1.append(sublist)
-            elif risk == '2':
-                category2.append(sublist)
-            elif risk == '3':
-                category3.append(sublist)
+    #ordena médicos por primeiro disponível
+    ordered_time = sorted(
+        final_list, key=lambda x: (
+            dateTime.timeToMinutes(x[last_childbirth]), 
+            -int(x[category]), #categoria decrescente
+            -int(dateTime.leftToPause(x[daily_work])),#menos tempo para pausa
+            
+            )
+        )
 
-    final_list.extend(category3)
-    final_list.extend(category2)
-    final_list.extend(category1)
 
-    ordened_time = sorted(final_list, key=lambda x: dateTime.timeToMinutes(x[last_childbirth]))
-
-    return ordened_time
+    return ordered_time
 
 
 def priorityRequests(requests):
