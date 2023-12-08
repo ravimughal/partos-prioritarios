@@ -48,7 +48,7 @@ def priorityDoctors(doctors):
 
 def combinationsDocRequest(doctors, requests):
     for mother in requests:
-        print(mother)
+        pass
 
 def priorityRequests(requests):
     """
@@ -66,7 +66,6 @@ def priorityRequests(requests):
     Retorna:
     Uma lista organizada em ordem de prioridade, primeiro por risco e depois por cor da pulseira.
     """
-
     high_risk_list = []
     medium_risk_list = []
     low_risk_list = []
@@ -82,10 +81,10 @@ def priorityRequests(requests):
                 medium_risk_list.append(sublist)
             elif risk == 'low':
                 low_risk_list.append(sublist)
-
     final_list.extend(high_risk_list)
     final_list.extend(medium_risk_list)
     final_list.extend(low_risk_list)
+    
 
     red_bracelet_list = []
     yellow_bracelet_list = []
@@ -99,12 +98,14 @@ def priorityRequests(requests):
         elif sublist[MOTH_BRACELET_IDX] == 'green':
             green_bracelet_list.append(sublist)
 
-
+    
     red_bracelet_list = sorted(red_bracelet_list, key=lambda x: (int(x[1]), 0), reverse=True)
     yellow_bracelet_list = sorted(yellow_bracelet_list, key=lambda x: (int(x[1]), 1), reverse=True)
     green_bracelet_list = sorted(green_bracelet_list, key=lambda x: (int(x[1]), 2), reverse=True)
 
-    
+    print('Antes de reemanipular: ',final_list)
+    ######################################################
+    # TRECHO DE CÓDIGO A SER CONCERTADO
     final_list = []
 
     if len(red_bracelet_list) > 0:
@@ -121,14 +122,19 @@ def priorityRequests(requests):
         for sublist in green_bracelet_list:
             if int(sublist[1]) == int(green_bracelet_list[0][1]):
                 final_list.append(sublist)
-    
+    print("Depois de reemanipular",final_list)
+    ####################################################
     return final_list
 
 
 if __name__ == '__main__':
     doctors_data = infoFromFiles.readDoctorsFile('doctors10h00.txt')
     requests_data = infoFromFiles.readRequestsFile('requests10h30.txt')
-    schedule_data = infoFromFiles.readScheduleFile('schedule10h00.txt')
-    #result = updateSchedule(doctors_data, requests_data, schedule_data, 2)
-    result = combinationsDocRequest(doctors_data, requests_data)
     
+    schedule_data = infoFromFiles.readScheduleFile('schedule10h00.txt')
+    result = updateSchedule(doctors_data, requests_data, schedule_data, 2)
+    request_order = result[0]
+    doctors_order = result[1]
+
+    
+    combination = combinationsDocRequest(doctors_order, request_order)
