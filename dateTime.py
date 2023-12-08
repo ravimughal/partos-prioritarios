@@ -92,5 +92,5 @@ def intToTime(hour, minutes):
     return h + "h" + m
 
 if __name__ == '__main__':
-    #print(sumHours('0h20', '19h30'))
+    print(timeToMinutes("40h0"))
     pass

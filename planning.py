@@ -27,6 +27,15 @@ def updateSchedule(doctors, requests, previousSched, nextTime):
     return [request_order, doctors_order]
 
 def priorityDoctors(doctors):
+    """
+    Ordena a lista de médicos com base na disponibilidade de horário de parto e critérios de prioridade.
+
+    Parâmetros:
+    - doctors (list): Uma lista de médicos contendo informações de vários médicos.
+
+    Retorna:
+    - list: A lista de médicos ordenada com base na disponibilidade de horário de parto e critérios de prioridade.
+    """
     final_list = doctors
 
     # ordena médicos por primeiro disponível e considerando os critérios de desempate
@@ -35,7 +44,7 @@ def priorityDoctors(doctors):
             dateTime.timeToMinutes(x[DOCT_CHILDBIRTH_IDX]),
             -int(x[DOCT_CATEGORY_IDX]),  # categoria decrescente
             -int(dateTime.timeToDailyPause(x[DOCT_DAILYWORK_IDX])),  # menos tempo para pausa diaria
-            -int(dateTime.timeToWeeklyPause(x[DOCT_WEEKLYWORK_IDX])),  # menos tempo para pausa semanal
+            -int(dateTime.timeToWeeklyPause(x[DOCT_WEEKLYWORK_IDX])) if str(x[DOCT_WEEKLYWORK_IDX]).isdigit() else float('inf'),  # menor tempo para pausa semanal, senão float('inf')
             x[DOCT_NAME_IDX]  # ordem lexicográfica
         )
     )
@@ -44,10 +53,22 @@ def priorityDoctors(doctors):
 
 
 def combinationsDocRequest(doctors, requests):
+    """
+    Gera combinações de pedidos de mães com médicos, evitando médicos em pausa semanal.
+
+    Parâmetros:
+    - doctors (list): Uma lista de médicos contendo informações de vários médicos.
+    - requests (list): Uma lista de pedidos de mães contendo informações de várias mães.
+
+    Retorna:
+    - list: Uma lista de combinações contendo informações sobre o horário de parto, o nome da mãe e o nome do médico.
+    """
     combinations = []
 
     for mother in requests:
         for doctor in doctors: 
+            if isWklPause(doctor) == True: #caso doctor esteja em pausa semanal, ignoraremo-o
+                continue
             if mother[MOTH_RISK_IDX] == 'high' and int(doctor[DOCT_CATEGORY_IDX]) >= 2:
                 combinations.append([doctor[DOCT_CHILDBIRTH_IDX],mother[MOTH_NAME_IDX], doctor[DOCT_NAME_IDX]])
                 doctors = updateDoctors(doctor, doctors)
@@ -61,13 +82,61 @@ def combinationsDocRequest(doctors, requests):
     return combinations
 
 def updateDoctors(doctor, doctors):
-    doctor[DOCT_CHILDBIRTH_IDX] = dateTime.sumHours(doctor[DOCT_CHILDBIRTH_IDX], HOUR_CHILDBIRTH)
-    doctor[DOCT_DAILYWORK_IDX] = int(doctor[DOCT_DAILYWORK_IDX]) + 20 #20 minutos
-    doctor[DOCT_WEEKLYWORK_IDX] = dateTime.sumHours(doctor[DOCT_WEEKLYWORK_IDX], HOUR_CHILDBIRTH)
-    
-    doctors = priorityDoctors(doctors)
+    """
+    Atualiza as informações de um médico e reorganiza a lista de médicos com as atualizações.
+
+    Parâmetros:
+    - doctor (list): Uma lista representando as informações do médico que será atualizado.
+    - doctors (list): Uma lista de médicos contendo informações de vários médicos.
+
+    Retorna:
+    - list: A lista 'doctors' atualizada após as modificações.
+    """
+    doctor[DOCT_CHILDBIRTH_IDX] = dateTime.sumHours(doctor[DOCT_CHILDBIRTH_IDX], HOUR_CHILDBIRTH) #atualiza o novo horario disponivel do médico
+    doctor[DOCT_DAILYWORK_IDX] = int(doctor[DOCT_DAILYWORK_IDX]) + MIN_CHILDBIRTH #soma 20 minutos do trabalho diário
+    doctor[DOCT_WEEKLYWORK_IDX] = dateTime.sumHours(doctor[DOCT_WEEKLYWORK_IDX], HOUR_CHILDBIRTH) # soma 20 minutos do tranalho semanal
+
+    doctor = checkDoctors(doctor) #verifica se haverá intervalo diário ou pausa semanal
+    doctors = priorityDoctors(doctors) #reorganiza a lista de doctores com as atualizações
     return doctors
+
+def checkDoctors(doctor):
+    """
+    Verifica se o doutor está no tempo de pausa diária ou semanal e realiza as ações correspondentes.
+
+    Parâmetros:
+    - doctor (list): Uma lista representando as informações do doutor, onde
+    DOCT_DAILYWORK_IDX e DOCT_WEEKLYWORK_IDX são os índices
+    que contêm informações sobre o tempo de trabalho diário e semanal, respectivamente.
+
+    Retorna:
+    - list: A lista 'doctor' modificada com as ações correspondentes aplicadas.
+    """
+
+    if doctor[DOCT_DAILYWORK_IDX] > 240 and doctor[DOCT_DAILYWORK_IDX] <= 260:
+        doctor[DOCT_CHILDBIRTH_IDX] = dateTime.sumHours(doctor[DOCT_CHILDBIRTH_IDX], BREAK_TIME)
     
+    hour = dateTime.timeToMinutes(doctor[DOCT_WEEKLYWORK_IDX])
+    if hour >  WKL_WORK:
+        doctor[DOCT_WEEKLYWORK_IDX] = WKL_PAUSE
+    
+    return doctor
+    
+def isWklPause(doctor):
+    """
+    Verifica se o doutor está em pausa semanal.
+
+    Parâmetros:
+    - doctor (list): Uma lista representando as informações do doutor, onde DOCT_WEEKLYWORK_IDX
+    é o índice que contém a informação sobre a pausa semanal.
+
+    Retorna:
+    - bool: True se o doutor está em pausa semanal, False caso contrário.
+    """
+    if doctor[DOCT_WEEKLYWORK_IDX] == WKL_PAUSE:
+        return True
+    return False
+
 def priorityRequests(requests):
     
     """

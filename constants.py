@@ -13,11 +13,11 @@
 # code clean and legible
 HOUR_CHILDBIRTH = '00h20'
 MIN_CHILDBIRTH = 20
-
+BREAK_TIME = '1h00'
 
 # Value for weekly pause in the output schedule
-WKL_PAUSE = "weekly leave"
-
+WKL_PAUSE = 'weekly leave'
+WKL_WORK = 2400 #minutes
 
 
 # In a file:

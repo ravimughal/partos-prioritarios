@@ -7,6 +7,6 @@ Day:
 Doctors:
 Abílio Amaral, 1, 11h10, 180, 28h00
 Bernardo Biscaia, 3, 10h40, 80, 7h20
-Carlos Castro, 2, 10h20, 120, 32h00
+Carlos Castro, 2, 10h20, 220, 39h50
 Duarte Dantas, 3, 11h10, 270, 15h00
 
