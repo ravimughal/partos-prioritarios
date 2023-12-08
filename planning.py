@@ -1,5 +1,6 @@
 import infoFromFiles
 import dateTime
+from constants import *
 
 def updateSchedule(doctors, requests, previousSched, nextTime):
     
@@ -27,22 +28,18 @@ def updateSchedule(doctors, requests, previousSched, nextTime):
     print(doctors_order)
 
 def priorityDoctors(doctors):
-    name = 0
-    category = 1
-    last_childbirth = 2
-    daily_work = 3
-    weekly_work = 4
+
 
     final_list = doctors
 
     #ordena médicos por primeiro disponível
     ordened_time = sorted(
         final_list, key=lambda x: (
-            dateTime.timeToMinutes(x[last_childbirth]), 
-            -int(x[category]), #categoria decrescente
-            -int(dateTime.timeToDailyPause(x[daily_work])),#menos tempo para pausa diaria
-            -int(dateTime.timeToWeeklyPause(x[weekly_work])), #menos tempo para pausa semanal
-            x[name] #ordem lexicográfica
+            dateTime.timeToMinutes(x[DOCT_CHILDBIRTH_IDX]), 
+            -int(x[DOCT_CATEGORY_IDX]), #categoria decrescente
+            -int(dateTime.timeToDailyPause(x[DOCT_DAILYWORK_IDX])),#menos tempo para pausa diaria
+            -int(dateTime.timeToWeeklyPause(x[DOCT_WEEKLYWORK_IDX])), #menos tempo para pausa semanal
+            x[DOCT_NAME_IDX] #ordem lexicográfica
             )
         )
 

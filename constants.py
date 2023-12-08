@@ -27,6 +27,10 @@ NUM_HEADER_LINES = 7
 # In a doctor's list:
 # Index of the element with the docotor's name
 DOCT_NAME_IDX = 0
+DOCT_CATEGORY_IDX = 1
+DOCT_CHILDBIRTH_IDX = 2
+DOCT_DAILYWORK_IDX = 3
+DOCT_WEEKLYWORK_IDX = 4
 
 # In a mother's list:
 # Index of the element with the mother's name
