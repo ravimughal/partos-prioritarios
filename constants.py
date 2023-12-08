@@ -39,5 +39,6 @@ DOCT_WEEKLYWORK_IDX = 4
 # In a mother's list:
 # Index of the element with the mother's name
 MOTH_NAME_IDX = 0
-
+MOTH_RISK_IDX = 3
+MOTH_BRACELET_IDX = 2
 

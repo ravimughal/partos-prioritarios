@@ -25,8 +25,9 @@ def updateSchedule(doctors, requests, previousSched, nextTime):
 
     request_order = priorityRequests(requests)
     doctors_order = priorityDoctors(doctors)
-    print(request_order)
-    print(doctors_order)
+    return [request_order, doctors_order]
+
+
 def priorityDoctors(doctors):
 
 
@@ -45,6 +46,9 @@ def priorityDoctors(doctors):
 
     return ordened_time
 
+def combinationsDocRequest(doctors, requests):
+    for mother in requests:
+        print(mother)
 
 def priorityRequests(requests):
     """
@@ -63,9 +67,6 @@ def priorityRequests(requests):
     Uma lista organizada em ordem de prioridade, primeiro por risco e depois por cor da pulseira.
     """
 
-    index_of_risk = 3
-    index_of_bracelet = 2
-
     high_risk_list = []
     medium_risk_list = []
     low_risk_list = []
@@ -73,8 +74,8 @@ def priorityRequests(requests):
     final_list = []
 
     for sublist in requests:
-        if index_of_risk < len(sublist):
-            risk = sublist[index_of_risk]
+        if MOTH_RISK_IDX < len(sublist):
+            risk = sublist[MOTH_RISK_IDX]
             if risk == 'high':
                 high_risk_list.append(sublist)
             elif risk == 'medium':
@@ -91,11 +92,11 @@ def priorityRequests(requests):
     green_bracelet_list = []
 
     for sublist in final_list:
-        if sublist[index_of_bracelet] == 'red':
+        if sublist[MOTH_BRACELET_IDX] == 'red':
             red_bracelet_list.append(sublist)
-        elif sublist[index_of_bracelet] == 'yellow':
+        elif sublist[MOTH_BRACELET_IDX] == 'yellow':
             yellow_bracelet_list.append(sublist)
-        elif sublist[index_of_bracelet] == 'green':
+        elif sublist[MOTH_BRACELET_IDX] == 'green':
             green_bracelet_list.append(sublist)
 
 
@@ -125,6 +126,9 @@ def priorityRequests(requests):
 
 
 if __name__ == '__main__':
-    doctors_data = infoFromFiles.readDoctorsFile('doctors16h00.txt')
-    requests_data = infoFromFiles.readRequestsFile('requests16h30.txt')
-    result = updateSchedule(doctors_data, requests_data, 1, 2)
+    doctors_data = infoFromFiles.readDoctorsFile('doctors10h00.txt')
+    requests_data = infoFromFiles.readRequestsFile('requests10h30.txt')
+    schedule_data = infoFromFiles.readScheduleFile('schedule10h00.txt')
+    #result = updateSchedule(doctors_data, requests_data, schedule_data, 2)
+    result = combinationsDocRequest(doctors_data, requests_data)
+    

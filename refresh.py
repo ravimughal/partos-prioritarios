@@ -11,7 +11,6 @@ import dateTime
 
 
 def plan(doctorsFileName, scheduleFileName, requestsFileName):
-   
     """
     Runs the birthPlan application.
 
@@ -33,23 +32,25 @@ def plan(doctorsFileName, scheduleFileName, requestsFileName):
     scheduleFileName and requestsFileName, and are written in the same directory
     of the latter.
     """
-    
+
     doctors_list = infoFromFiles.readDoctorsFile(doctorsFileName)
     request_list = infoFromFiles.readRequestsFile(requestsFileName)
+    schedule_list = infoFromFiles.readScheduleFile(scheduleFileName)
     
-    # o next_time é uma string que será usada para definir o nome do ficheiro (voce precisa usar o dateTime)
-    # Por exemplo, se o horario é schedule10h00.txt, o next_time precisa ser schedule10h30
-    
-    next_time = 0
+    lists = planning.updateSchedule(doctors_list, request_list, schedule_list, 1)
 
-        
-    return planning.updateSchedule(doctors_list,request_list,scheduleFileName,next_time)
+    doctors_list = lists[1]
+    request_list = lists[0]
+    
+    print("Doctors: ",doctors_list)
+    print("Request: ",request_list)
+    return 0
 
 if __name__ == '__main__':
 
-    #resultado = plan('doctors10h00.txt','schedule10h00.txt','requests10h30.txt') #testset1
+    resultado = plan('doctors10h00.txt','schedule10h00.txt','requests10h30.txt') #testset1
     #resultado = plan('doctors14h00.txt','schedule14h00.txt','requests14h30.txt') #testset2
-    resultado = plan('doctors16h00.txt','schedule16h00.txt','requests16h30.txt') #testset3
+    #resultado = plan('doctors16h00.txt','schedule16h00.txt','requests16h30.txt') #testset3
 
 
 

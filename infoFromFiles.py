@@ -52,6 +52,8 @@ def readRequestsFile(fileName):
         data = line.strip().split(', ')
         requestsList.append(data)
 
+    requestsList = emptyList(requestsList)
+
     return requestsList
 
 def emptyList(listOfLists):
