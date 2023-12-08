@@ -21,7 +21,7 @@ def updateSchedule(doctors, requests, previousSched, nextTime):
     assigned according to the conditions indicated in the general specification
     of the project (omitted here for the sake of readability).
     """
-     
+
     request_order = priorityRequests(requests)
     doctors_order = priorityDoctors(doctors)
     return [request_order, doctors_order]
@@ -50,12 +50,18 @@ def combinationsDocRequest(doctors, requests):
         for doctor in doctors:
             if mother[MOTH_RISK_IDX] == 'high' and int(doctor[DOCT_CATEGORY_IDX]) >= 2:
                 combinations.append([mother[MOTH_NAME_IDX], doctor[DOCT_NAME_IDX]])
+                update = updateDoctors(doctor)
+                print(update)
                 break
             elif mother[MOTH_RISK_IDX] != 'high':
                 combinations.append([mother[MOTH_NAME_IDX], doctor[DOCT_NAME_IDX]])
                 break
             
-    print(combinations)
+    return combinations
+
+def updateDoctors(doctor):
+    doctor[DOCT_CHILDBIRTH_IDX] = dateTime.sumHours(doctor[DOCT_CHILDBIRTH_IDX], HOUR_CHILDBIRTH)
+    
 
 def priorityRequests(requests):
     
@@ -74,7 +80,7 @@ def priorityRequests(requests):
     Retorna:
     Uma lista organizada em ordem de prioridade, primeiro por risco e depois por cor da pulseira.
     """
-     
+
     high_risk_list = []
     medium_risk_list = []
     low_risk_list = []
@@ -122,11 +128,7 @@ def priorityRequests(requests):
     final_list.extend(medium_risk_list)
     final_list.extend(low_risk_list)
 
-
-    print('Final List:', final_list)
-
-
-    return sorted(final_list, key=lambda x: x[MOTH_NAME_IDX])
+    return final_list
 
 if __name__ == '__main__':
     doctors_data = infoFromFiles.readDoctorsFile('doctors10h00.txt')
@@ -136,3 +138,4 @@ if __name__ == '__main__':
     result = updateSchedule(doctors_data, requests_data, schedule_data, 2)
     request_order = result[0]
     doctors_order = result[1]
+    print(combinationsDocRequest(doctors=doctors_order, requests=request_order))

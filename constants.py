@@ -11,7 +11,7 @@
 
 # You should define here as many constants as you need to keep your 
 # code clean and legible
-
+HOUR_CHILDBIRTH = '00h20'
 
 
 # Value for weekly pause in the output schedule
