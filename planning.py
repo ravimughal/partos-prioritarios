@@ -112,10 +112,10 @@ def priorityRequests(requests):
     return sorted(final_list, key=lambda x: x[MOTH_NAME_IDX])
 
 if __name__ == '__main__':
-    doctors_data = infoFromFiles.readDoctorsFile('doctors16h00.txt')
-    requests_data = infoFromFiles.readRequestsFile('requests16h30.txt')
+    doctors_data = infoFromFiles.readDoctorsFile('doctors10h00.txt')
+    requests_data = infoFromFiles.readRequestsFile('requests10h30.txt')
     
-    schedule_data = infoFromFiles.readScheduleFile('schedule16h00.txt')
+    schedule_data = infoFromFiles.readScheduleFile('schedule10h00.txt')
     result = updateSchedule(doctors_data, requests_data, schedule_data, 2)
     request_order = result[0]
     doctors_order = result[1]

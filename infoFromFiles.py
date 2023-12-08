@@ -28,6 +28,9 @@ def readDoctorsFile(fileName):
     for line in content:
         data = line.strip().split(', ')
         doctors.append(data)
+    
+    doctors = emptyList(doctors)
+
     return doctors
 
 def removeHeader(fileName):
@@ -49,10 +52,33 @@ def readRequestsFile(fileName):
         data = line.strip().split(', ')
         requestsList.append(data)
 
+    requestsList = emptyList(requestsList)
+
     return requestsList
 
+def emptyList(listOfLists):
+    """
+    Remove sublistas vazias de uma lista.
+
+    Parâmetros:
+    - listOfLists (list): Lista contendo sublistas.
+
+    Retorna:
+    list: Nova lista contendo apenas as sublistas não vazias.
+    """
+    return [sublist for sublist in listOfLists if any(sublist)]
+
+def readScheduleFile(file):
+    content = removeHeader(file)
+    scheduleList = []
+    for line in content:
+        data = line.strip().split(', ')
+        scheduleList.append(data)
+
+    scheduleList = emptyList(scheduleList)
+    return scheduleList
 
 if __name__ == '__main__':
-    print(readDoctorsFile('doctors10h00.txt'))
+    print(readScheduleFile('schedule16h30.txt'))
 
 
