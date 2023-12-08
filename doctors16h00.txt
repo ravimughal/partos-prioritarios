@@ -5,5 +5,16 @@ Hour:
 Day: 
 10:12:2023
 Doctors:
+Carlos Ferreira, 1, 16h30, 250, 22h45
+João Santos, 1, 16h30, 300, 25h30
+Luís Pereira, 1, 16h30, 270, 20h55
+Sofia Santos, 1, 16h30, 320, 26h15
+Ana Pereira, 2, 16h30, 150, 28h10
+Marta Martins, 2, 16h30, 140, 36h30
+Maria Silva, 2, 16h30, 200, 32h50
+Ricardo Costa, 2, 16h30, 180, 34h20
 Manuel Machado, 3, 16h30, 120, 39h40
-Orlando Oliveira, 3, 16h40, 80, 39h20
+Orlando Oliveira, 3, 16h30, 80, 39h20
+Pedro Oliveira, 3, 16h30, 110, 40h05
+Isabel Rodrigues, 3, 16h30, 90, 42h15
+

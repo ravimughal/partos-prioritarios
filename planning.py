@@ -36,17 +36,20 @@ def priorityDoctors(doctors):
     final_list = doctors
 
     #ordena médicos por primeiro disponível
-    ordered_time = sorted(
+    ordened_time = sorted(
         final_list, key=lambda x: (
             dateTime.timeToMinutes(x[last_childbirth]), 
             -int(x[category]), #categoria decrescente
-            -int(dateTime.leftToPause(x[daily_work])),#menos tempo para pausa
-            
+            -int(dateTime.timeToDailyPause(x[daily_work])),#menos tempo para pausa diaria
+            -int(dateTime.timeToWeeklyPause(x[weekly_work])), #menos tempo para pausa semanal
+            x[name] #ordem lexicográfica
             )
         )
 
+    for i in ordened_time:
+        print(i)
 
-    return ordered_time
+    return 
 
 
 def priorityRequests(requests):
@@ -128,6 +131,6 @@ def priorityRequests(requests):
 
 
 if __name__ == '__main__':
-    doctors_data = infoFromFiles.readDoctorsFile('doctors14h00.txt')
+    doctors_data = infoFromFiles.readDoctorsFile('doctors16h00.txt')
     requests_data = infoFromFiles.readRequestsFile('requests16h30.txt')
     result = updateSchedule(doctors_data, requests_data, 1, 2)

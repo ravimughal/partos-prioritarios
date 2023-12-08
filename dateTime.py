@@ -31,13 +31,38 @@ def timeToMinutes(time):
     return (hour * 60 + minutes)
 
 
-def leftToPause(time):
+def timeToDailyPause(time):
+    """
+    Calcula o tempo restante até a próxima pausa com base no tempo atual em minutos.
+
+    Parâmetros:
+    - time (int): O tempo atual em minutos.
+
+    Retorna:
+    int: O tempo restante até a próxima pausa. Se o tempo atual for igual ou superior a 240 minutos,
+    retorna a diferença entre 480 minutos e o tempo atual. Caso contrário, retorna a diferença
+    entre 240 minutos e o tempo atual.
+    """
     time = int(time)
     
     if time >= 240:
         return 480 - time
     else:
         return 240 - time
+
+def timeToWeeklyPause(time):
+    """
+    Calcula o tempo acumulado até a próxima pausa semanal com base no tempo atual em minutos.
+
+    Parâmetros:
+    - time (str): O tempo atual no formato 'hh:mm'.
+
+    Retorna:
+    int: O tempo acumulado até a próxima pausa semanal em minutos.
+    """
+    time = timeToMinutes(time)
+
+    return time
 
 def intToTime(hour, minutes):
     """
@@ -55,4 +80,4 @@ def intToTime(hour, minutes):
     return h + "h" + m
 
 if __name__ == '__main__':
-    print(leftToPause(440))
+    print(timeToDailyPause(440))
