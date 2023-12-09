@@ -68,6 +68,13 @@ def emptyList(listOfLists):
     """
     return [sublist for sublist in listOfLists if any(sublist)]
 
+def getTime(filename):
+    with open(filename, 'r') as file:
+        lines = file.readlines()
+        time = lines[NUM_TIME_LINE].strip()
+    
+    return time
+
 def readScheduleFile(file):
     content = removeHeader(file)
     scheduleList = []
@@ -79,6 +86,6 @@ def readScheduleFile(file):
     return scheduleList
 
 if __name__ == '__main__':
-    print(readScheduleFile('schedule16h30.txt'))
+    print(getTime('schedule10h00.txt'))
 
 

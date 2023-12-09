@@ -24,6 +24,11 @@ WKL_WORK = 2400 #minutes
 # Number of header's lines
 NUM_HEADER_LINES = 7
 
+# Number of hour line
+NUM_TIME_LINE = 3
+
+# Next Time
+TIME_30_MIN = '00h30'
 
 # In a doctor's list:
 # Index of the element with the docotor's name

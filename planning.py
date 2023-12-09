@@ -24,7 +24,9 @@ def updateSchedule(doctors, requests, previousSched, nextTime):
 
     request_order = priorityRequests(requests)
     doctors_order = priorityDoctors(doctors)
-    return [request_order, doctors_order]
+    combinations = combinationsDocRequest(doctors=doctors_order, requests=request_order)
+    print(nextTime)
+    return combinations
 
 def priorityDoctors(doctors):
     """
@@ -67,7 +69,7 @@ def combinationsDocRequest(doctors, requests):
 
     for mother in requests:
         for doctor in doctors: 
-            if isWklPause(doctor) == True: #caso doctor esteja em pausa semanal, ignoraremo-o
+            if isWklPause(doctor) == True: #caso doctor esteja em pausa semanal, ignoraremos
                 continue
             if mother[MOTH_RISK_IDX] == 'high' and int(doctor[DOCT_CATEGORY_IDX]) >= 2:
                 combinations.append([doctor[DOCT_CHILDBIRTH_IDX],mother[MOTH_NAME_IDX], doctor[DOCT_NAME_IDX]])
@@ -209,7 +211,7 @@ if __name__ == '__main__':
     requests_data = infoFromFiles.readRequestsFile('requests10h30.txt')
     
     schedule_data = infoFromFiles.readScheduleFile('schedule10h00.txt')
-    result = updateSchedule(doctors_data, requests_data, schedule_data, 2)
-    request_order = result[0]
-    doctors_order = result[1]
-    print(combinationsDocRequest(doctors=doctors_order, requests=request_order))
+    time_file = infoFromFiles.getTime('schedule10h00.txt')
+    nextTime = dateTime.sumHours(time_file, TIME_30_MIN)
+    result = updateSchedule(doctors_data, requests_data, schedule_data, nextTime)
+    print(result)
