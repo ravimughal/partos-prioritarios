@@ -8,5 +8,4 @@ Mothers:
 Brunilde Bastos, 28, green, high
 Carlota Cunha, 30, red, low
 Alberta Asunção, 35, green, high
-Jéssica, 35, green, medium
-Cuiabá, 35, yellow, high
+

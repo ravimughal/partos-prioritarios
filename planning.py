@@ -25,6 +25,7 @@ def updateSchedule(doctors, requests, previousSched, nextTime):
     request_order = priorityRequests(requests)
     doctors_order = priorityDoctors(doctors)
     combinations = combinationsDocRequest(doctors=doctors_order, requests=request_order)
+    previousSched.extend(combinations)
     print(nextTime)
     return combinations
 
@@ -213,5 +214,5 @@ if __name__ == '__main__':
     schedule_data = infoFromFiles.readScheduleFile('schedule10h00.txt')
     time_file = infoFromFiles.getTime('schedule10h00.txt')
     nextTime = dateTime.sumHours(time_file, TIME_30_MIN)
-    result = updateSchedule(doctors_data, requests_data, schedule_data, nextTime)
-    print(result)
+    #result = updateSchedule(doctors_data, requests_data, schedule_data, nextTime)
+    #print(result)

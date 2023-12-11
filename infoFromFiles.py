@@ -75,6 +75,21 @@ def getTime(filename):
     
     return time
 
+def getHeader(filename):
+    """
+    Retorna o cabeçalho do arquivo especificado como uma string.
+
+    Parameters:
+    - filename (str): O caminho do arquivo a ser lido.
+
+    Returns:
+    str: Uma string contendo as primeiras linhas do arquivo, correspondentes ao cabeçalho.
+    """
+    with open(filename, 'r') as file:
+        lines = file.readlines()
+        header = lines[:NUM_HEADER_LINES]
+    return ''.join(header)
+
 def readScheduleFile(file):
     content = removeHeader(file)
     scheduleList = []
@@ -86,6 +101,6 @@ def readScheduleFile(file):
     return scheduleList
 
 if __name__ == '__main__':
-    print(getTime('schedule10h00.txt'))
+    print(getHeader('schedule10h00.txt'))
 
 
