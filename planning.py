@@ -21,13 +21,41 @@ def updateSchedule(doctors, requests, previousSched, nextTime):
     assigned according to the conditions indicated in the general specification
     of the project (omitted here for the sake of readability).
     """
-
+    shorterTime(doctors, nextTime) #caso o horario do médico disponivel seja antes do horario nexTime, atualiza o horario
     request_order = priorityRequests(requests)
     doctors_order = priorityDoctors(doctors)
     combinations = combinationsDocRequest(doctors=doctors_order, requests=request_order)
     previousSched.extend(combinations)
-    print(nextTime)
     return combinations
+
+def shorterTime(doctors, nextTime):
+    """
+    Atualiza o horário do parto de médicos cujo horário de parto atual é anterior ao próximo
+    horário especificado. Se o horário livre do médico for antes do próximo horário especificado,
+    o próximo horário do médico é atualizado para o próximo horário especificado.
+
+    Parameters:
+    - doctors (list): Uma lista de médicos, onde cada médico é representado por uma lista.
+    Cada lista de médico deve ter um índice específico (DOCT_CHILDBIRTH_IDX) contendo
+    seu horário de parto atual.
+    - nextTime (int): O próximo horário de parto a ser considerado, em minutos.
+
+    Modificações:
+    - A função atualiza o horário de parto (índice DOCT_CHILDBIRTH_IDX) de médicos na lista
+    cujo horário de parto atual é menor que o próximo horário especificado. Se o horário livre
+    do médico for anterior ao próximo horário especificado, o próximo horário do médico é
+    atualizado para o próximo horário especificado.
+
+    Returns:
+    None
+    """
+    nextTimeMinutes = dateTime.timeToMinutes(nextTime)
+    for doctor in doctors:
+        timeMinutes = dateTime.timeToMinutes(doctor[DOCT_CHILDBIRTH_IDX])
+        if timeMinutes < nextTimeMinutes:
+            doctor[DOCT_CHILDBIRTH_IDX] = nextTime
+    
+    return
 
 def priorityDoctors(doctors):
     """
@@ -95,7 +123,10 @@ def updateDoctors(doctor, doctors):
     Retorna:
     - list: A lista 'doctors' atualizada após as modificações.
     """
+    #print(doctor[DOCT_CHILDBIRTH_IDX], doctor[DOCT_NAME_IDX])
     doctor[DOCT_CHILDBIRTH_IDX] = dateTime.sumHours(doctor[DOCT_CHILDBIRTH_IDX], HOUR_CHILDBIRTH) #atualiza o novo horario disponivel do médico
+    #print(doctor[DOCT_CHILDBIRTH_IDX], doctor[DOCT_NAME_IDX])
+
     doctor[DOCT_DAILYWORK_IDX] = int(doctor[DOCT_DAILYWORK_IDX]) + MIN_CHILDBIRTH #soma 20 minutos do trabalho diário
     doctor[DOCT_WEEKLYWORK_IDX] = dateTime.sumHours(doctor[DOCT_WEEKLYWORK_IDX], HOUR_CHILDBIRTH) # soma 20 minutos do tranalho semanal
 
@@ -214,5 +245,5 @@ if __name__ == '__main__':
     schedule_data = infoFromFiles.readScheduleFile('schedule10h00.txt')
     time_file = infoFromFiles.getTime('schedule10h00.txt')
     nextTime = dateTime.sumHours(time_file, TIME_30_MIN)
-    #result = updateSchedule(doctors_data, requests_data, schedule_data, nextTime)
-    #print(result)
+    result = updateSchedule(doctors_data, requests_data, schedule_data, nextTime)
+    print(result)
