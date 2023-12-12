@@ -26,6 +26,7 @@ def updateSchedule(doctors, requests, previousSched, nextTime):
     doctors_order = priorityDoctors(doctors)
     combinations = combinationsDocRequest(doctors=doctors_order, requests=request_order)
     previousSched.extend(combinations)
+    print(previousSched)
     return combinations
 
 def shorterTime(doctors, nextTime):
@@ -56,6 +57,9 @@ def shorterTime(doctors, nextTime):
             doctor[DOCT_CHILDBIRTH_IDX] = nextTime
     
     return
+
+def checkScheduleDoctorsTime(file, nextTime):
+    pass
 
 def priorityDoctors(doctors):
     """

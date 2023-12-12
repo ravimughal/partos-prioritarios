@@ -101,6 +101,6 @@ def readScheduleFile(file):
     return scheduleList
 
 if __name__ == '__main__':
-    print(getHeader('schedule10h00.txt'))
+    print(readScheduleFile('schedule10h00.txt'))
 
 

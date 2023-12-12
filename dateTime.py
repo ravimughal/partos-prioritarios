@@ -5,7 +5,14 @@
 # 75000 Alberto Albertino 
 # 75001 Maria Marisa
 
+import re
 
+def extractTime(filename):
+    match = re.search(r'(\d{1,2}h\d{2})', filename)
+    if match:
+        return match.group(1)
+    else:
+        return None
 
 def hourToInt(time):
     """
