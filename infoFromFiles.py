@@ -53,7 +53,6 @@ def readRequestsFile(fileName):
         requestsList.append(data)
 
     requestsList = emptyList(requestsList)
-
     return requestsList
 
 def emptyList(listOfLists):

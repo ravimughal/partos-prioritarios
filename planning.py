@@ -24,10 +24,55 @@ def updateSchedule(doctors, requests, previousSched, nextTime):
     shorterTime(doctors, nextTime) #caso o horario do médico disponivel seja antes do horario nexTime, atualiza o horario
     request_order = priorityRequests(requests)
     doctors_order = priorityDoctors(doctors)
+
     combinations = combinationsDocRequest(doctors=doctors_order, requests=request_order)
     previousSched.extend(combinations)
-    print(previousSched)
-    return combinations
+    rmvShorterTimePreviousSched(previousSched, nextTime)
+    
+    previousSched = priorityTimeSched(previousSched)
+    return previousSched
+
+
+def priorityTimeSched(previousSched):
+    """
+    Ordena uma lista de eventos com base no horário e no nome do mês.
+
+    A ordenação é realizada considerando duas chaves:
+    1. O horário do evento convertido para minutos, onde eventos com menor tempo
+    têm prioridade (ex: menos tempo para pausa diária).
+    2. O nome do mês em ordem lexicográfica.
+
+    Parameters:
+    - previousSched (list): Uma lista de eventos, onde cada evento 
+    contém informações como o horário (SCHED_TIME) e o nome do mês (SCHED_NAME_MOTH).
+
+    Returns:
+    list: Uma nova lista de eventos ordenados com base nas regras definidas.
+    """
+    ordened_time = sorted(
+        previousSched, key=lambda x: (
+            int(dateTime.timeToMinutes(x[SCHED_TIME])),  # menos tempo para pausa diaria
+            x[SCHED_NAME_MOTH]  # ordem lexicográfica
+        )
+    )
+    return ordened_time
+
+def rmvShorterTimePreviousSched(previousSched, nextTime):
+    """
+    Remove eventos da lista `previousSched` cujo horário é menor que o horário especificado.
+
+    Parameters:
+    - previousSched (list): Uma lista de eventos
+    - nextTime (str): O próximo horário a ser considerado para remoção de eventos, no formato 'HHhMM'.
+
+    Returns:
+    list: Uma nova lista de eventos após a remoção dos eventos cujo horário é menor que `nextTime`.
+    """
+    previousSched_copy = previousSched.copy()
+    for sched in previousSched_copy:
+        if dateTime.timeToMinutes(sched[SCHED_TIME]) < dateTime.timeToMinutes(nextTime):
+            previousSched.remove(sched)
+    return previousSched
 
 def shorterTime(doctors, nextTime):
     """
@@ -57,9 +102,6 @@ def shorterTime(doctors, nextTime):
             doctor[DOCT_CHILDBIRTH_IDX] = nextTime
     
     return
-
-def checkScheduleDoctorsTime(file, nextTime):
-    pass
 
 def priorityDoctors(doctors):
     """
@@ -250,4 +292,3 @@ if __name__ == '__main__':
     time_file = infoFromFiles.getTime('schedule10h00.txt')
     nextTime = dateTime.sumHours(time_file, TIME_30_MIN)
     result = updateSchedule(doctors_data, requests_data, schedule_data, nextTime)
-    print(result)

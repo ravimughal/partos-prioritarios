@@ -30,6 +30,11 @@ NUM_TIME_LINE = 3
 # Next Time
 TIME_30_MIN = '00h30'
 
+
+# In a schedule list:
+SCHED_TIME = 0
+SCHED_NAME_MOTH = 1
+
 # In a doctor's list:
 # Index of the element with the docotor's name
 DOCT_NAME_IDX = 0
