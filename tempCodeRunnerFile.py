@@ -1,1 +1,1 @@
-s
+                doctors = updateDoctors(doctor, doctors)

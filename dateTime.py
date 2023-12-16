@@ -33,7 +33,8 @@ def timeToMinutes(time):
     """
     
     """
-   
+    if time == 'weekly leave':
+        return 9999999
     hour = hourToInt(time)
     minutes = minutesToInt(time)
     return (hour * 60 + minutes)
@@ -79,11 +80,8 @@ def timeToWeeklyPause(time):
     Retorna:
     int: O tempo acumulado até a próxima pausa semanal em minutos.
     """
-    if time == 'weekly leave':
-        print(time)
-        return 9999999
+    
     tempoTotal = timeToMinutes(time)
-    print(tempoTotal)
     return tempoTotal
 
 def intToTime(hour, minutes):

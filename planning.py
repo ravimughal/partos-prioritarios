@@ -25,10 +25,9 @@ def updateSchedule(doctors, requests, previousSched, nextTime):
     request_order = priorityRequests(requests)
     doctors_order = priorityDoctors(doctors)
 
-    combinations = combinationsDocRequest(doctors=doctors_order, requests=request_order)
+    combinations = combinationsDocRequest(doctors_order, request_order, nextTime)
     previousSched.extend(combinations)
     rmvShorterTimePreviousSched(previousSched, nextTime)
-    
     previousSched = priorityTimeSched(previousSched)
     return previousSched
 
@@ -121,19 +120,26 @@ def priorityDoctors(doctors):
             dateTime.timeToMinutes(x[DOCT_CHILDBIRTH_IDX]),
             -int(x[DOCT_CATEGORY_IDX]),  # categoria decrescente
             -int(dateTime.timeToDailyPause(x[DOCT_DAILYWORK_IDX])),  # menos tempo para pausa diaria
-            int(dateTime.timeToWeeklyPause(x[DOCT_WEEKLYWORK_IDX])),# menor tempo para pausa semanal, senão float('inf')
+            int(dateTime.timeToWeeklyPause(x[DOCT_WEEKLYWORK_IDX])),
             
             x[DOCT_NAME_IDX] # ordem lexicográfica
         )
     )
     
-    for i in ordened_time:
-        print(i)
-    print('\n')
+    index_to_move = None
+    for i, sublist in enumerate(ordened_time):
+        if 'weekly leave' in sublist:
+            index_to_move = i
+            break
+
+    if index_to_move is not None:
+        ordened_time.append(ordened_time.pop(index_to_move))
+
+
     return ordened_time
 
 
-def combinationsDocRequest(doctors, requests):
+def combinationsDocRequest(doctors, requests, nexTime):
     """
     Gera combinações de pedidos de mães com médicos, evitando médicos em pausa semanal.
 
@@ -149,10 +155,14 @@ def combinationsDocRequest(doctors, requests):
     for mother in requests:
         for doctor in doctors: 
             if isWklPause(doctor) == True: #caso doctor esteja em pausa semanal, ignoraremos
-                continue
-            if mother[MOTH_RISK_IDX] == 'high' and int(doctor[DOCT_CATEGORY_IDX]) >= 2:
+                combinations.append([nexTime, mother[MOTH_NAME_IDX], 'redirected to other network'])
+                break
+            elif mother[MOTH_RISK_IDX] == 'high' and int(doctor[DOCT_CATEGORY_IDX]) >= 2:
                 combinations.append([doctor[DOCT_CHILDBIRTH_IDX],mother[MOTH_NAME_IDX], doctor[DOCT_NAME_IDX]])
                 doctors = updateDoctors(doctor, doctors)
+                break
+            elif mother[MOTH_RISK_IDX] == 'high' and int(doctor[DOCT_CATEGORY_IDX]) < 2:
+                combinations.append([nexTime, mother[MOTH_NAME_IDX], 'redirected to other network'])
                 break
             elif mother[MOTH_RISK_IDX] != 'high':
                 combinations.append([doctor[DOCT_CHILDBIRTH_IDX],mother[MOTH_NAME_IDX], doctor[DOCT_NAME_IDX]])
@@ -201,8 +211,8 @@ def checkDoctors(doctor):
         doctor[DOCT_CHILDBIRTH_IDX] = dateTime.sumHours(doctor[DOCT_CHILDBIRTH_IDX], BREAK_TIME)
     
     hour = dateTime.timeToMinutes(doctor[DOCT_WEEKLYWORK_IDX])
-    if hour >  WKL_WORK:
-        doctor[DOCT_WEEKLYWORK_IDX] = WKL_PAUSE
+    if hour >=  WKL_WORK:
+        doctor[DOCT_CHILDBIRTH_IDX] = WKL_PAUSE
     
     return doctor
     
@@ -217,7 +227,7 @@ def isWklPause(doctor):
     Retorna:
     - bool: True se o doutor está em pausa semanal, False caso contrário.
     """
-    if doctor[DOCT_WEEKLYWORK_IDX] == WKL_PAUSE:
+    if doctor[DOCT_CHILDBIRTH_IDX] == WKL_PAUSE:
         return True
     return False
 
@@ -289,10 +299,10 @@ def priorityRequests(requests):
     return final_list
 
 if __name__ == '__main__':
-    doctors_data = infoFromFiles.readDoctorsFile('doctors14h00.txt')
-    requests_data = infoFromFiles.readRequestsFile('requests14h30.txt')
+    doctors_data = infoFromFiles.readDoctorsFile('doctors16h00.txt')
+    requests_data = infoFromFiles.readRequestsFile('requests16h30.txt')
     
-    schedule_data = infoFromFiles.readScheduleFile('schedule14h00.txt')
-    time_file = infoFromFiles.getTime('schedule14h00.txt')
+    schedule_data = infoFromFiles.readScheduleFile('schedule16h00.txt')
+    time_file = infoFromFiles.getTime('schedule16h00.txt')
     nextTime = dateTime.sumHours(time_file, TIME_30_MIN)
     result = updateSchedule(doctors_data, requests_data, schedule_data, nextTime)
