@@ -121,11 +121,15 @@ def priorityDoctors(doctors):
             dateTime.timeToMinutes(x[DOCT_CHILDBIRTH_IDX]),
             -int(x[DOCT_CATEGORY_IDX]),  # categoria decrescente
             -int(dateTime.timeToDailyPause(x[DOCT_DAILYWORK_IDX])),  # menos tempo para pausa diaria
-            -int(dateTime.timeToWeeklyPause(x[DOCT_WEEKLYWORK_IDX])) if str(x[DOCT_WEEKLYWORK_IDX]).isdigit() else float('inf'),  # menor tempo para pausa semanal, senão float('inf')
-            x[DOCT_NAME_IDX]  # ordem lexicográfica
+            int(dateTime.timeToWeeklyPause(x[DOCT_WEEKLYWORK_IDX])),# menor tempo para pausa semanal, senão float('inf')
+            
+            x[DOCT_NAME_IDX] # ordem lexicográfica
         )
     )
-
+    
+    for i in ordened_time:
+        print(i)
+    print('\n')
     return ordened_time
 
 
@@ -285,10 +289,10 @@ def priorityRequests(requests):
     return final_list
 
 if __name__ == '__main__':
-    doctors_data = infoFromFiles.readDoctorsFile('doctors10h00.txt')
-    requests_data = infoFromFiles.readRequestsFile('requests10h30.txt')
+    doctors_data = infoFromFiles.readDoctorsFile('doctors14h00.txt')
+    requests_data = infoFromFiles.readRequestsFile('requests14h30.txt')
     
-    schedule_data = infoFromFiles.readScheduleFile('schedule10h00.txt')
-    time_file = infoFromFiles.getTime('schedule10h00.txt')
+    schedule_data = infoFromFiles.readScheduleFile('schedule14h00.txt')
+    time_file = infoFromFiles.getTime('schedule14h00.txt')
     nextTime = dateTime.sumHours(time_file, TIME_30_MIN)
     result = updateSchedule(doctors_data, requests_data, schedule_data, nextTime)

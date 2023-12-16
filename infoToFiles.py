@@ -54,12 +54,12 @@ def writeDoctorsFile(doctors, header, fileName):
     pass
 
 if __name__ == '__main__':
-    doctors_data = infoFromFiles.readDoctorsFile('doctors10h00.txt')
-    requests_data = infoFromFiles.readRequestsFile('requests10h30.txt')    
-    schedule_data = infoFromFiles.readScheduleFile('schedule10h00.txt')
-    time_file = infoFromFiles.getTime('schedule10h00.txt')
+    doctors_data = infoFromFiles.readDoctorsFile('doctors14h00.txt')
+    requests_data = infoFromFiles.readRequestsFile('requests14h30.txt')    
+    schedule_data = infoFromFiles.readScheduleFile('schedule14h00.txt')
+    time_file = infoFromFiles.getTime('schedule14h00.txt')
     nextTime = dateTime.sumHours(time_file, TIME_30_MIN)
     sched = planning.updateSchedule(doctors_data, requests_data, schedule_data, nextTime)
-    header = infoFromFiles.getHeader('schedule10h00.txt')
-    newFileName = formatNameFile('schedule10h00.txt')
+    header = infoFromFiles.getHeader('schedule14h00.txt')
+    newFileName = formatNameFile('schedule14h00.txt')
     writeSchedule = writeScheduleFile(sched, header, newFileName)
