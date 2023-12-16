@@ -6,7 +6,7 @@
 # 75001 Maria Marisa
 
 from constants import *
-
+import dateTime
 
 def readDoctorsFile(fileName):
     """
@@ -67,12 +67,8 @@ def emptyList(listOfLists):
     """
     return [sublist for sublist in listOfLists if any(sublist)]
 
-def getTime(filename):
-    with open(filename, 'r') as file:
-        lines = file.readlines()
-        time = lines[NUM_TIME_LINE].strip()
-    
-    return time
+
+
 
 def getHeader(filename):
     """
@@ -98,8 +94,4 @@ def readScheduleFile(file):
 
     scheduleList = emptyList(scheduleList)
     return scheduleList
-
-if __name__ == '__main__':
-    print(readScheduleFile('schedule10h00.txt'))
-
 

@@ -298,11 +298,3 @@ def priorityRequests(requests):
 
     return final_list
 
-if __name__ == '__main__':
-    doctors_data = infoFromFiles.readDoctorsFile('doctors16h00.txt')
-    requests_data = infoFromFiles.readRequestsFile('requests16h30.txt')
-    
-    schedule_data = infoFromFiles.readScheduleFile('schedule16h00.txt')
-    time_file = infoFromFiles.getTime('schedule16h00.txt')
-    nextTime = dateTime.sumHours(time_file, TIME_30_MIN)
-    result = updateSchedule(doctors_data, requests_data, schedule_data, nextTime)

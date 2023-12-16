@@ -6,6 +6,7 @@
 # 75001 Maria Marisa
 
 import re
+from constants import *
 
 def extractTime(filename):
     match = re.search(r'(\d{1,2}h\d{2})', filename)
@@ -13,6 +14,21 @@ def extractTime(filename):
         return match.group(1)
     else:
         return None
+    
+def getTime(filename):
+    with open(filename, 'r') as file:
+        lines = file.readlines()
+        time = lines[NUM_TIME_LINE].strip()
+    
+    return time
+
+def checkTime(filename):
+    for i in filename:
+        if getTime(i) != extractTime(i):
+            print(f'File name {i} does not match the time in the Header')
+            quit()
+
+
 
 def hourToInt(time):
     """
@@ -100,5 +116,4 @@ def intToTime(hour, minutes):
     return h + "h" + m
 
 if __name__ == '__main__':
-    timeToWeeklyPause("15h00"), timeToWeeklyPause('39h50')
-    pass
+    checkTime(['doctors10h00.txt', 'schedule10h00.txt', 'requests10h30.txt'])

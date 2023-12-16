@@ -9,6 +9,10 @@ import infoFromFiles
 import planning
 import dateTime
 import sys
+from constants import *
+import infoToFiles
+
+
 
 
 def plan(doctorsFileName, scheduleFileName, requestsFileName):
@@ -34,38 +38,40 @@ def plan(doctorsFileName, scheduleFileName, requestsFileName):
     of the latter.
     """
 
-    doctors_list = infoFromFiles.readDoctorsFile(doctorsFileName)
-    request_list = infoFromFiles.readRequestsFile(requestsFileName)
-    schedule_list = infoFromFiles.readScheduleFile(scheduleFileName)
+    dateTime.checkTime([doctorsFileName, requestsFileName, scheduleFileName])
+
+    doctors_data = infoFromFiles.readDoctorsFile(doctorsFileName)
+    requests_data = infoFromFiles.readRequestsFile(requestsFileName)    
+    schedule_data = infoFromFiles.readScheduleFile(scheduleFileName)
+    time_file = dateTime.getTime(scheduleFileName)
+    nextTime = dateTime.sumHours(time_file, TIME_30_MIN)
+    sched = planning.updateSchedule(doctors_data, requests_data, schedule_data, nextTime)
+    header = infoFromFiles.getHeader(scheduleFileName)
+    newFileName = infoToFiles.formatNameFile(scheduleFileName)
+    infoToFiles.writeScheduleFile(sched, header, newFileName)
+    newDoctorsFileName = infoToFiles.formatNameFile(doctorsFileName)
+    infoToFiles.writeDoctorsFile(doctors_data, header, newDoctorsFileName)
+
+try: 
+
+    doctorsFile = sys.argv[1]
+    scheduleFile = sys.argv[2]
+    requestsFile = sys.argv[3]
+
+    plan(doctorsFile, scheduleFile, requestsFile)
+
+except FileNotFoundError:
+    print("File Not Found")
+    ascii_file_not_found = [
+    "  ______ _ _        _   _       _     ______                    _ ",
+    " |  ____(_) |      | \\ | |     | |   |  ____|                  | |",
+    " | |__   _| | ___  |  \\| | ___ | |_  | |__ ___  _   _ _ __   __| |",
+    " |  __| | | |/ _ \\ | . ` |/ _ \\| __| |  __/ _ \\| | | | '_ \\ / _` |",
+    " | |    | | |  __/ | |\\  | (_) | |_  | | | (_) | |_| | | | | (_| |",
+    " |_|    |_|_|\\___| |_| \\_|\\___/ \\__| |_|  \\___/ \\__,_|_| |_|\\__,_|",
+    "                                                                  "
+]
+    for line in ascii_file_not_found:
+        print(line)
     
-    lists = planning.updateSchedule(doctors_list, request_list, schedule_list, 1)
-
-    doctors_list = lists[1]
-    request_list = lists[0]
-    
-    print("Doctors: ",doctors_list)
-    print("Request: ",request_list)
-    return 0
-
-if __name__ == '__main__':
-    """
-    doctors = sys.argv[1]
-    schedule = sys.argv[2]
-    requests = sys.argv[3]
-    resultado = plan(doctors, schedule, requests)
-    """
-    
-    resultado = plan('doctors10h00.txt','schedule10h00.txt','requests10h30.txt') #testset1
-    #resultado = plan('doctors14h00.txt','schedule14h00.txt','requests14h30.txt') #testset2
-    #resultado = plan('doctors16h00.txt','schedule16h00.txt','requests16h30.txt') #testset3
-
-
-
-
-
-    
-    
-
-
-        
-
+    print('Make sure you follow the python3 refresh.py inputFile1 inputFile2 inputFile3')
