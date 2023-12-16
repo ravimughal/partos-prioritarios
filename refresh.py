@@ -37,8 +37,13 @@ def plan(doctorsFileName, scheduleFileName, requestsFileName):
     scheduleFileName and requestsFileName, and are written in the same directory
     of the latter.
     """
-
-    dateTime.checkTime([doctorsFileName, requestsFileName, scheduleFileName])
+    files = [doctorsFileName, scheduleFileName, requestsFileName]
+    files = planning.checkExtension(files)
+    doctorsFileName = files[0]
+    scheduleFileName = files[1]
+    requestsFileName = files[2]
+    
+    dateTime.checkTime(files)
 
     doctors_data = infoFromFiles.readDoctorsFile(doctorsFileName)
     requests_data = infoFromFiles.readRequestsFile(requestsFileName)    

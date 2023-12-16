@@ -298,3 +298,11 @@ def priorityRequests(requests):
 
     return final_list
 
+def checkExtension(files):
+    new_files = []
+    for file in files:
+        if not file.endswith('.txt'):
+            file += '.txt'
+        new_files.append(file)
+    return new_files
+    
