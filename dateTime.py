@@ -40,7 +40,7 @@ def getTime(filename):
     
     return time
 
-def checkTime(filename):
+def checkTime(files):
     """
     Verifies that the filenames match the time information in their headers.
 
@@ -50,11 +50,11 @@ def checkTime(filename):
     Raises:
         ValueError: If the header time doesn't match the filename.
     """
-    for i in filename:
-        timeHeader = getTime(i)
-        timeNameFile = extractTime(i)
+    for file in files:
+        timeHeader = getTime(file)
+        timeNameFile = extractTime(file)
         if timeHeader != timeNameFile:
-            raise ValueError(f"File name {i} doesn't match the time in the header: expected {timeNameFile}, actual {timeHeader}")
+            raise ValueError(f"File head error: scope inconsistency between name and header in file <{file}>.")
 
 
 

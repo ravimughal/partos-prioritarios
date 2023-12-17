@@ -45,17 +45,17 @@ def plan(doctorsFileName, scheduleFileName, requestsFileName):
     
     dateTime.checkTime(files)
 
-    doctors_data = infoFromFiles.readDoctorsFile(doctorsFileName)
-    requests_data = infoFromFiles.readRequestsFile(requestsFileName)    
-    schedule_data = infoFromFiles.readScheduleFile(scheduleFileName)
-    time_file = dateTime.getTime(scheduleFileName)
-    nextTime = dateTime.sumHours(time_file, TIME_30_MIN)
-    sched = planning.updateSchedule(doctors_data, requests_data, schedule_data, nextTime)
+    doctorsData = infoFromFiles.readDoctorsFile(doctorsFileName)
+    requestsData = infoFromFiles.readRequestsFile(requestsFileName)    
+    scheduleData = infoFromFiles.readScheduleFile(scheduleFileName)
+    timeFile = dateTime.getTime(scheduleFileName)
+    nextTime = dateTime.sumHours(timeFile, TIME_30_MIN)
+    sched = planning.updateSchedule(doctorsData, requestsData, scheduleData, nextTime)
     header = infoFromFiles.getHeader(scheduleFileName)
     newFileName = infoToFiles.formatNameFile(scheduleFileName)
     infoToFiles.writeScheduleFile(sched, header, newFileName)
     newDoctorsFileName = infoToFiles.formatNameFile(doctorsFileName)
-    infoToFiles.writeDoctorsFile(doctors_data, header, newDoctorsFileName)
+    infoToFiles.writeDoctorsFile(doctorsData, header, newDoctorsFileName)
 
 try: 
 

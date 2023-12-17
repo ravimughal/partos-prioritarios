@@ -38,18 +38,38 @@ def writeScheduleFile(sched, header, fileName):
 
 
 def formatNameFile(file):
-    current_time = dateTime.extractTime(file)
+    """
+    Formats the file name, replacing the current time with the updated time.
 
-    if current_time:
-        new_time = dateTime.sumHours(current_time, TIME_30_MIN)
-        new_file = file.replace(current_time, new_time)
+    Args:
+        file (str): The file name to be formatted.
 
-        return new_file
+    Returns:
+        str: The formatted file name.
+
+    Raises:
+        ValueError: If the time cannot be extracted from the file name.
+    """
+    currentTime = dateTime.extractTime(file)
+
+    if currentTime:
+        newTime = dateTime.sumHours(currentTime, TIME_30_MIN)
+        newFile = file.replace(currentTime, newTime)
+
+        return newFile
     else:
-        print("Erro: Não foi possível extrair o horário do nome do arquivo.")
-        return None
+        raise ValueError("Erro: Não foi possível extrair o horário do nome do arquivo.")
+        
 
 def writeDoctorsFile(doctors, header, fileName):
+    """
+    Writes a list of doctors to a TXT file.
+
+    Args:
+        doctors (list): The list of doctors to be written to the file.
+        header (str): The header row for the TXT file.
+        fileName (str): The name of the TXT file to be written.
+    """
     with open(fileName, 'w', encoding='utf-8') as file:
         file.write(header)
 

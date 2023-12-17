@@ -5,7 +5,6 @@
 # 62504 Ravi Mughal 
 # 62496 Vitor Augusto
 
-import infoFromFiles
 import dateTime
 from constants import *
 
@@ -55,13 +54,13 @@ def priorityTimeSched(previousSched):
     Returns:
     list: A new list of events ordered based on defined rules.
     """
-    ordened_time = sorted(
+    ordenedTime = sorted(
         previousSched, key=lambda x: (
             int(dateTime.timeToMinutes(x[SCHED_TIME])),  # less time for daily breaks
             x[SCHED_NAME_MOTH]  # lexicographic order
         )
     )
-    return ordened_time
+    return ordenedTime
 
 def rmvShorterTimePreviousSched(previousSched, nextTime):
     """
@@ -121,11 +120,11 @@ def priorityDoctors(doctors):
     - list: The list of doctors sorted based on delivery time availability and priority
     criteria.
     """
-    final_list = doctors
+    finalList = doctors
 
     # Orders doctors by first available and considering the tiebreaker criteria
-    ordened_time = sorted(
-        final_list, key=lambda x: (
+    ordenedTime = sorted(
+        finalList, key=lambda x: (
             dateTime.timeToMinutes(x[DOCT_CHILDBIRTH_IDX]),
             -int(x[DOCT_CATEGORY_IDX]),  # descending category
             -int(dateTime.timeToDailyPause(x[DOCT_DAILYWORK_IDX])),  # less time for daily breaks
@@ -135,24 +134,23 @@ def priorityDoctors(doctors):
         )
     )
     
-    index_to_move = None
-    for i, sublist in enumerate(ordened_time):
+    indexToMove = None
+    for i, sublist in enumerate(ordenedTime):
         if 'weekly leave' in sublist:
-            index_to_move = i
+            indexToMove = i
             break
 
-    if index_to_move is not None:
-        ordened_time.append(ordened_time.pop(index_to_move))
+    if indexToMove is not None:
+        ordenedTime.append(ordenedTime.pop(indexToMove))
 
 
-    return ordened_time
+    return ordenedTime
 
 
 def combinationsDocRequest(doctors, requests, nexTime):
     """
     Generates combinations of orders from mothers with doctors, avoiding doctors
     on weekly breaks.
-  
     Parameters:
     - doctors (list): A list of doctors containing information from multiple doctors.
     - requests (list): A mother order list containing information from multiple mothers.
@@ -187,7 +185,6 @@ def updateDoctors(doctor, doctors):
     """
     Updates a doctor's information and rearranges the list of doctors with 
     the updates.
-   
     Parameters:
     - doctor (list): A list representing the doctor information that will be updated
     - doctors (list): A list of doctors containing information from multiple doctors
@@ -195,9 +192,7 @@ def updateDoctors(doctor, doctors):
     Returns:
     - list: The 'doctors' list updated after changes.
     """
-    #print(doctor[DOCT_CHILDBIRTH_IDX], doctor[DOCT_NAME_IDX])
     doctor[DOCT_CHILDBIRTH_IDX] = dateTime.sumHours(doctor[DOCT_CHILDBIRTH_IDX], HOUR_CHILDBIRTH) #Update the doctor's new available hours
-    #print(doctor[DOCT_CHILDBIRTH_IDX], doctor[DOCT_NAME_IDX])
 
     doctor[DOCT_DAILYWORK_IDX] = int(doctor[DOCT_DAILYWORK_IDX]) + MIN_CHILDBIRTH #adds 20 minutes of daily work
     doctor[DOCT_WEEKLYWORK_IDX] = dateTime.sumHours(doctor[DOCT_WEEKLYWORK_IDX], HOUR_CHILDBIRTH) # totals 20 minutes of weekly work
@@ -215,7 +210,6 @@ def checkDoctors(doctor):
     - doctor (list): A list representing the doctor's information, where
     DOCT_DAILYWORK_IDX and DOCT_WEEKLYWORK_IDX are the indices which contain
     information about daily and weekly working time respectively.
-      
     Returns:
     - list: The 'doctor' list modified with corresponding actions applied.
     """
@@ -260,47 +254,46 @@ def priorityRequests(requests):
     Parameters:
     - list: A list of sublists containing information. 
     Each sublist must have at least indexes 2 (bracelet) and 3 (risk).
-   
     Returns:
     A list organized in order of priority, first by risk and then by bracelet color
     
     """
 
-    high_risk_list = []
-    medium_risk_list = []
-    low_risk_list = []
+    highRiskList = []
+    mediumRiskList = []
+    lowRiskList = []
     PRIORITY_COLOR = ['red', 'yellow', 'green']
-    final_list = []
+    finalList = []
 
     for sublist in requests:
         if MOTH_RISK_IDX < len(sublist):
             risk = sublist[MOTH_RISK_IDX]
             if risk == 'high':
-                high_risk_list.append(sublist)
+                highRiskList.append(sublist)
             elif risk == 'medium':
-                medium_risk_list.append(sublist)
+                mediumRiskList.append(sublist)
             elif risk == 'low':
-                low_risk_list.append(sublist)
+                lowRiskList.append(sublist)
 
     # bracelet order: red > yellow > green
-    high_risk_list = sorted(
-        high_risk_list, key=lambda x: (
+    highRiskList = sorted(
+        highRiskList, key=lambda x: (
             x[MOTH_RISK_IDX],  # risk in ascending order
             PRIORITY_COLOR.index(x[MOTH_BRACELET_IDX]),  # bracelet priority
             -int(x[MOTH_BRACELET_IDX]) if x[MOTH_BRACELET_IDX].isdigit() else 0,  # age in descending order
             x[MOTH_NAME_IDX]  # lexicographic order
         )
     )
-    medium_risk_list = sorted(
-        medium_risk_list, key=lambda x: (
+    mediumRiskList = sorted(
+        mediumRiskList, key=lambda x: (
             x[MOTH_RISK_IDX],
             PRIORITY_COLOR.index(x[MOTH_BRACELET_IDX]),  # bracelet priority
             -int(x[MOTH_BRACELET_IDX]) if x[MOTH_BRACELET_IDX].isdigit() else 0,  # age in descending order
             x[MOTH_NAME_IDX]
         )
     )
-    low_risk_list = sorted(
-        low_risk_list, key=lambda x: (
+    lowRiskList = sorted(
+        lowRiskList, key=lambda x: (
             x[MOTH_RISK_IDX],
             PRIORITY_COLOR.index(x[MOTH_BRACELET_IDX]),  # bracelet priority
             -int(x[MOTH_BRACELET_IDX]) if x[MOTH_BRACELET_IDX].isdigit() else 0,  # age in descending order
@@ -309,11 +302,11 @@ def priorityRequests(requests):
     )
 
     # Adds tiebreaker criteria for lexicographic name
-    final_list.extend(high_risk_list)
-    final_list.extend(medium_risk_list)
-    final_list.extend(low_risk_list)
+    finalList.extend(highRiskList)
+    finalList.extend(mediumRiskList)
+    finalList.extend(lowRiskList)
 
-    return final_list
+    return finalList
 
 def checkExtension(files):
     """
