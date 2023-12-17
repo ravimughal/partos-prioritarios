@@ -34,6 +34,15 @@ def readDoctorsFile(fileName):
     return doctors
 
 def removeHeader(fileName):
+    """
+    Removes the header lines from a file and returns the remaining content.
+
+    Parameters:
+    - fileName (str): The path to the file containing the header lines.
+
+    Returns:
+    - content (list): A list containing the lines of the file after removing the header.
+    """
     with open(fileName, 'r', encoding='utf-8') as file:
         lines = file.readlines()
         content = lines[NUM_HEADER_LINES:]
@@ -42,7 +51,16 @@ def removeHeader(fileName):
 
 def readRequestsFile(fileName):
     """
-    Reads a file with a list of requested assistances with a given file name into a collection.
+    Reads a file with a list of requested assistances using the provided file name.
+
+    Parameters:
+    - fileName (str): The path to the file containing the list of requested assistances.
+
+    Returns:
+    - requestsList (list): A list of lists representing requested assistances. Each inner list
+    contains data extracted from a line in the file, split by ', '. Empty lists are removed
+    from the result.
+
     """
 
     inFile = removeHeader(fileName)       
@@ -87,6 +105,17 @@ def getHeader(filename):
     return ''.join(header)
 
 def readScheduleFile(file):
+    """
+    Read schedule data from a file and return a list of lists.
+
+    Parameters:
+    - file (str): The path to the file containing schedule data.
+
+    Returns:
+    - scheduleList (list): A list of lists representing schedule data. Each inner list
+    contains data extracted from a line in the file, split by ', '. Empty lists are
+    removed from the result.
+    """
     content = removeHeader(file)
     scheduleList = []
     for line in content:
