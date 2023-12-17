@@ -9,13 +9,31 @@ import re
 from constants import *
 
 def extractTime(filename):
+    """
+    Extracts the time from the filename using regular expressions.
+
+    Args:
+        filename: The filename to extract the time from.
+
+    Returns:
+        Optional[str]: The extracted time string if found, otherwise None.
+    """
     match = re.search(r'(\d{1,2}h\d{2})', filename)
     if match:
         return match.group(1)
     else:
-        return None
-    
+        raise ValueError(f"File name {filename} doesn't match the expected time pattern")
+
 def getTime(filename):
+    """
+    Retrieves the time from the specified file.
+
+    Args:
+        filename (str): The filename from which to extract the time.
+
+    Returns:
+        str: The extracted time string.
+    """
     with open(filename, 'r') as file:
         lines = file.readlines()
         time = lines[NUM_TIME_LINE].strip()
@@ -23,23 +41,46 @@ def getTime(filename):
     return time
 
 def checkTime(filename):
+    """
+    Verifies that the filenames match the time information in their headers.
+
+    Args:
+        filenames (list(str)): A list of filenames to check.
+
+    Raises:
+        ValueError: If the header time doesn't match the filename.
+    """
     for i in filename:
-        if getTime(i) != extractTime(i):
-            print(f'File name {i} does not match the time in the Header')
-            quit()
+        timeHeader = getTime(i)
+        timeNameFile = extractTime(i)
+        if timeHeader != timeNameFile:
+            raise ValueError(f"File name {i} doesn't match the time in the header: expected {timeNameFile}, actual {timeHeader}")
+
 
 
 
 def hourToInt(time):
     """
+    Extracts the hour component from a time string and converts it to an integer.
 
+    Args:
+        time (str): The time string to process.
+
+    Returns:
+        int: The extracted hour as an integer.
     """
     t = time.split("h")
     return int(t[0])
 
 def minutesToInt(time):
     """
+    Extracts the minutes component from a time string and converts it to an integer.
 
+    Args:
+        time (str): The time string to process.
+
+    Returns:
+        int: The extracted minutes as an integer.
     """
     t = time.split("h")
     return int(t[1])
@@ -47,7 +88,13 @@ def minutesToInt(time):
 
 def timeToMinutes(time):
     """
-    
+    Converts a time string to the corresponding number of minutes.
+
+    Args:
+        time (str): The time string to convert.
+
+    Returns:
+        int: The corresponding number of minutes.
     """
     if time == 'weekly leave':
         return 9999999
@@ -56,6 +103,15 @@ def timeToMinutes(time):
     return (hour * 60 + minutes)
 
 def minutesToHour(minutes):
+    """
+    Converts a total number of minutes into a formatted time string in the style "HHhMM".
+
+    Parameters:
+    - minutes (int): The total number of minutes to be converted.
+
+    Returns:
+    - formato_horas (str): A formatted time string representing the total minutes as "HHhMM".
+    """
     horas = minutes // 60
     minutos_restantes = minutes % 60
 
@@ -65,6 +121,16 @@ def minutesToHour(minutes):
     return formato_horas
 
 def sumHours(time1, time2):
+    """
+    Sums two time values in the format "HHhMM" and returns the result as a formatted time string.
+
+    Parameters:
+    - time1 (str): A time string in the format "HHhMM".
+    - time2 (str): Another time string in the format "HHhMM".
+
+    Returns:
+    - sumTimeString (str): A formatted time string representing the sum of time1 and time2.
+    """
     total_minutes = timeToMinutes(time1) + timeToMinutes(time2)
     return minutesToHour(total_minutes)
 
@@ -88,13 +154,13 @@ def timeToDailyPause(time):
 
 def timeToWeeklyPause(time):
     """
-    Calcula o tempo acumulado até a próxima pausa semanal com base no tempo atual em minutos.
+    Calculates the accumulated time until the next weekly break based on the current time in minutes.
 
-    Parâmetros:
-    - time (str): O tempo atual no formato 'hh:mm'.
+    Parameters:
+    - time (str): The current time in the format 'HHhMM'.
 
-    Retorna:
-    int: O tempo acumulado até a próxima pausa semanal em minutos.
+    Returns:
+    int: The accumulated time until the next weekly break in minutes.
     """
     
     tempoTotal = timeToMinutes(time)
@@ -102,7 +168,14 @@ def timeToWeeklyPause(time):
 
 def intToTime(hour, minutes):
     """
+    Converts integers representing hours and minutes into a formatted time string.
 
+    Parameters:
+    - hour (int): An integer representing the hour (0 to 23).
+    - minutes (int): An integer representing the minutes (0 to 59).
+
+    Returns:
+    - timeString (str): A formatted time string in the format "HHhMM", where 'hh' is the hour
     """
     h = str(hour)
     m = str(minutes)
