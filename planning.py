@@ -28,7 +28,7 @@ def updateSchedule(doctors, requests, previousSched, nextTime):
     assigned according to the conditions indicated in the general specification
     of the project (omitted here for the sake of readability).
     """
-    shorterTime(doctors, nextTime) #caso o horario do médico disponivel seja antes do horario nexTime, atualiza o horario
+    shorterTime(doctors, nextTime) #If the available doctor's schedule is before the nexTime schedule, update the schedule
     request_order = priorityRequests(requests)
     doctors_order = priorityDoctors(doctors)
 
@@ -41,38 +41,39 @@ def updateSchedule(doctors, requests, previousSched, nextTime):
 
 def priorityTimeSched(previousSched):
     """
-    Ordena uma lista de eventos com base no horário e no nome do mês.
+    Sorts a list of events based on time and month name.
 
-    A ordenação é realizada considerando duas chaves:
-    1. O horário do evento convertido para minutos, onde eventos com menor tempo
-    têm prioridade (ex: menos tempo para pausa diária).
-    2. O nome do mês em ordem lexicográfica.
+    The ordering is carried out considering two keys:
+    1. The event time converted to minutes, where events with a shorter time
+    have priority (e.g. less time for daily breaks).
+    2. The name of the month in lexicographic order.
 
     Parameters:
-    - previousSched (list): Uma lista de eventos, onde cada evento 
-    contém informações como o horário (SCHED_TIME) e o nome do mês (SCHED_NAME_MOTH).
+    - previousSched (list): A list of events, where each event contains information 
+    such as the time (SCHED_TIME) and the name of the month (SCHED_NAME_MOTH).
 
     Returns:
-    list: Uma nova lista de eventos ordenados com base nas regras definidas.
+    list: A new list of events ordered based on defined rules.
     """
     ordened_time = sorted(
         previousSched, key=lambda x: (
-            int(dateTime.timeToMinutes(x[SCHED_TIME])),  # menos tempo para pausa diaria
-            x[SCHED_NAME_MOTH]  # ordem lexicográfica
+            int(dateTime.timeToMinutes(x[SCHED_TIME])),  # less time for daily breaks
+            x[SCHED_NAME_MOTH]  # lexicographic order
         )
     )
     return ordened_time
 
 def rmvShorterTimePreviousSched(previousSched, nextTime):
     """
-    Remove eventos da lista `previousSched` cujo horário é menor que o horário especificado.
-
+    Removes events from the `previousSched` list whose time is less than the
+    specified time.
+   
     Parameters:
-    - previousSched (list): Uma lista de eventos
-    - nextTime (str): O próximo horário a ser considerado para remoção de eventos, no formato 'HHhMM'.
+    - previousSched (list): A list of events
+    - nextTime (str): The next time to consider for removing events, in the format 'HHhMM'.
 
     Returns:
-    list: Uma nova lista de eventos após a remoção dos eventos cujo horário é menor que `nextTime`.
+    list: A new list of events after removing events whose time is less than `nextTime`.
     """
     previousSched_copy = previousSched.copy()
     for sched in previousSched_copy:
@@ -82,21 +83,20 @@ def rmvShorterTimePreviousSched(previousSched, nextTime):
 
 def shorterTime(doctors, nextTime):
     """
-    Atualiza o horário do parto de médicos cujo horário de parto atual é anterior ao próximo
-    horário especificado. Se o horário livre do médico for antes do próximo horário especificado,
-    o próximo horário do médico é atualizado para o próximo horário especificado.
+    Updates the delivery time of doctors whose current delivery time is earlier
+    than the next one specified time. If the doctor's free time is before the next
+    specified time, the doctor's next time is updated to the next specified time.
 
     Parameters:
-    - doctors (list): Uma lista de médicos, onde cada médico é representado por uma lista.
-    Cada lista de médico deve ter um índice específico (DOCT_CHILDBIRTH_IDX) contendo
-    seu horário de parto atual.
-    - nextTime (int): O próximo horário de parto a ser considerado, em minutos.
+    - doctors (list): A list of doctors, where each doctor is represented by a list.
+    Each doctor list must have a specific index (DOCT_CHILDBIRTH_IDX) containing
+    your current delivery time.
+    - nextTime (int): The next delivery time to be considered, in minutes.
 
-    Modificações:
-    - A função atualiza o horário de parto (índice DOCT_CHILDBIRTH_IDX) de médicos na lista
-    cujo horário de parto atual é menor que o próximo horário especificado. Se o horário livre
-    do médico for anterior ao próximo horário especificado, o próximo horário do médico é
-    atualizado para o próximo horário especificado.
+    Modifications:
+    - The function updates the delivery time (DOCT_CHILDBIRTH_IDX ​​index) of doctors in the list
+    whose current delivery time is less than the next specified time. If free time
+    before the next specified time, the doctor's next time is updated for the next specified time.
 
     Returns:
     None
@@ -111,25 +111,27 @@ def shorterTime(doctors, nextTime):
 
 def priorityDoctors(doctors):
     """
-    Ordena a lista de médicos com base na disponibilidade de horário de parto e critérios de prioridade.
+    Sorts the list of doctors based on delivery time availability and priority
+    criteria.
+    
+    Parameters:
+    - doctors (list): A list of doctors containing information from multiple doctors
 
-    Parâmetros:
-    - doctors (list): Uma lista de médicos contendo informações de vários médicos.
-
-    Retorna:
-    - list: A lista de médicos ordenada com base na disponibilidade de horário de parto e critérios de prioridade.
+    Returns:
+    - list: The list of doctors sorted based on delivery time availability and priority
+    criteria.
     """
     final_list = doctors
 
-    # ordena médicos por primeiro disponível e considerando os critérios de desempate
+    # Orders doctors by first available and considering the tiebreaker criteria
     ordened_time = sorted(
         final_list, key=lambda x: (
             dateTime.timeToMinutes(x[DOCT_CHILDBIRTH_IDX]),
-            -int(x[DOCT_CATEGORY_IDX]),  # categoria decrescente
-            -int(dateTime.timeToDailyPause(x[DOCT_DAILYWORK_IDX])),  # menos tempo para pausa diaria
+            -int(x[DOCT_CATEGORY_IDX]),  # descending category
+            -int(dateTime.timeToDailyPause(x[DOCT_DAILYWORK_IDX])),  # less time for daily breaks
             int(dateTime.timeToWeeklyPause(x[DOCT_WEEKLYWORK_IDX])),
             
-            x[DOCT_NAME_IDX] # ordem lexicográfica
+            x[DOCT_NAME_IDX] # lexicographic order
         )
     )
     
@@ -148,20 +150,22 @@ def priorityDoctors(doctors):
 
 def combinationsDocRequest(doctors, requests, nexTime):
     """
-    Gera combinações de pedidos de mães com médicos, evitando médicos em pausa semanal.
+    Generates combinations of orders from mothers with doctors, avoiding doctors
+    on weekly breaks.
+  
+    Parameters:
+    - doctors (list): A list of doctors containing information from multiple doctors.
+    - requests (list): A mother order list containing information from multiple mothers.
 
-    Parâmetros:
-    - doctors (list): Uma lista de médicos contendo informações de vários médicos.
-    - requests (list): Uma lista de pedidos de mães contendo informações de várias mães.
-
-    Retorna:
-    - list: Uma lista de combinações contendo informações sobre o horário de parto, o nome da mãe e o nome do médico.
+    Returns:
+    - list: A list of combinations containing information about the delivery time,
+    the mother's name and the doctor's name.
     """
     combinations = []
 
     for mother in requests:
         for doctor in doctors: 
-            if isWklPause(doctor) == True: #caso doctor esteja em pausa semanal, ignoraremos
+            if isWklPause(doctor) == True: #If doctor is on weekly break, we will ignore
                 combinations.append([nexTime, mother[MOTH_NAME_IDX], 'redirected to other network'])
                 break
             elif mother[MOTH_RISK_IDX] == 'high' and int(doctor[DOCT_CATEGORY_IDX]) >= 2:
@@ -181,37 +185,39 @@ def combinationsDocRequest(doctors, requests, nexTime):
 
 def updateDoctors(doctor, doctors):
     """
-    Atualiza as informações de um médico e reorganiza a lista de médicos com as atualizações.
+    Updates a doctor's information and rearranges the list of doctors with 
+    the updates.
+   
+    Parameters:
+    - doctor (list): A list representing the doctor information that will be updated
+    - doctors (list): A list of doctors containing information from multiple doctors
 
-    Parâmetros:
-    - doctor (list): Uma lista representando as informações do médico que será atualizado.
-    - doctors (list): Uma lista de médicos contendo informações de vários médicos.
-
-    Retorna:
-    - list: A lista 'doctors' atualizada após as modificações.
+    Returns:
+    - list: The 'doctors' list updated after changes.
     """
     #print(doctor[DOCT_CHILDBIRTH_IDX], doctor[DOCT_NAME_IDX])
-    doctor[DOCT_CHILDBIRTH_IDX] = dateTime.sumHours(doctor[DOCT_CHILDBIRTH_IDX], HOUR_CHILDBIRTH) #atualiza o novo horario disponivel do médico
+    doctor[DOCT_CHILDBIRTH_IDX] = dateTime.sumHours(doctor[DOCT_CHILDBIRTH_IDX], HOUR_CHILDBIRTH) #Update the doctor's new available hours
     #print(doctor[DOCT_CHILDBIRTH_IDX], doctor[DOCT_NAME_IDX])
 
-    doctor[DOCT_DAILYWORK_IDX] = int(doctor[DOCT_DAILYWORK_IDX]) + MIN_CHILDBIRTH #soma 20 minutos do trabalho diário
-    doctor[DOCT_WEEKLYWORK_IDX] = dateTime.sumHours(doctor[DOCT_WEEKLYWORK_IDX], HOUR_CHILDBIRTH) # soma 20 minutos do tranalho semanal
+    doctor[DOCT_DAILYWORK_IDX] = int(doctor[DOCT_DAILYWORK_IDX]) + MIN_CHILDBIRTH #adds 20 minutes of daily work
+    doctor[DOCT_WEEKLYWORK_IDX] = dateTime.sumHours(doctor[DOCT_WEEKLYWORK_IDX], HOUR_CHILDBIRTH) # totals 20 minutes of weekly work
 
-    doctor = checkDoctors(doctor) #verifica se haverá intervalo diário ou pausa semanal
-    doctors = priorityDoctors(doctors) #reorganiza a lista de doctores com as atualizações
+    doctor = checkDoctors(doctor) #checks whether there will be a daily break or weekly break
+    doctors = priorityDoctors(doctors) #reorganizes the list of doctors with updates
     return doctors
 
 def checkDoctors(doctor):
     """
-    Verifica se o doutor está no tempo de pausa diária ou semanal e realiza as ações correspondentes.
+    Check whether the doctor is on daily or weekly break time and performs
+    the corresponding actions.
 
-    Parâmetros:
-    - doctor (list): Uma lista representando as informações do doutor, onde
-    DOCT_DAILYWORK_IDX e DOCT_WEEKLYWORK_IDX são os índices
-    que contêm informações sobre o tempo de trabalho diário e semanal, respectivamente.
-
-    Retorna:
-    - list: A lista 'doctor' modificada com as ações correspondentes aplicadas.
+    Parameters:
+    - doctor (list): A list representing the doctor's information, where
+    DOCT_DAILYWORK_IDX and DOCT_WEEKLYWORK_IDX are the indices which contain
+    information about daily and weekly working time respectively.
+      
+    Returns:
+    - list: The 'doctor' list modified with corresponding actions applied.
     """
 
     if doctor[DOCT_DAILYWORK_IDX] >= 240 and doctor[DOCT_DAILYWORK_IDX] < 260:
@@ -225,14 +231,15 @@ def checkDoctors(doctor):
     
 def isWklPause(doctor):
     """
-    Verifica se o doutor está em pausa semanal.
+    Check if the doctor is on a weekly break
 
-    Parâmetros:
-    - doctor (list): Uma lista representando as informações do doutor, onde DOCT_WEEKLYWORK_IDX
-    é o índice que contém a informação sobre a pausa semanal.
+    Parameters:
+    - doctor (list): A list representing the doctor's information, where
+    DOCT_WEEKLYWORK_IDX is the index that contains information about the
+    weekly break.
 
-    Retorna:
-    - bool: True se o doutor está em pausa semanal, False caso contrário.
+    Returns:
+    - bool: True if the doctor is on a weekly break, False otherwise
     """
     if doctor[DOCT_CHILDBIRTH_IDX] == WKL_PAUSE:
         return True
@@ -275,33 +282,33 @@ def priorityRequests(requests):
             elif risk == 'low':
                 low_risk_list.append(sublist)
 
-    # ordem das pulseiras: red > yellow > green
+    # bracelet order: red > yellow > green
     high_risk_list = sorted(
         high_risk_list, key=lambda x: (
-            x[MOTH_RISK_IDX],  # risco em ordem crescente
-            PRIORITY_COLOR.index(x[MOTH_BRACELET_IDX]),  # prioridade da pulseira
-            -int(x[MOTH_BRACELET_IDX]) if x[MOTH_BRACELET_IDX].isdigit() else 0,  # idade em ordem decrescente
-            x[MOTH_NAME_IDX]  # ordem lexicográfica
+            x[MOTH_RISK_IDX],  # risk in ascending order
+            PRIORITY_COLOR.index(x[MOTH_BRACELET_IDX]),  # bracelet priority
+            -int(x[MOTH_BRACELET_IDX]) if x[MOTH_BRACELET_IDX].isdigit() else 0,  # age in descending order
+            x[MOTH_NAME_IDX]  # lexicographic order
         )
     )
     medium_risk_list = sorted(
         medium_risk_list, key=lambda x: (
             x[MOTH_RISK_IDX],
-            PRIORITY_COLOR.index(x[MOTH_BRACELET_IDX]),  # prioridade da pulseira
-            -int(x[MOTH_BRACELET_IDX]) if x[MOTH_BRACELET_IDX].isdigit() else 0,  # idade em ordem decrescente
+            PRIORITY_COLOR.index(x[MOTH_BRACELET_IDX]),  # bracelet priority
+            -int(x[MOTH_BRACELET_IDX]) if x[MOTH_BRACELET_IDX].isdigit() else 0,  # age in descending order
             x[MOTH_NAME_IDX]
         )
     )
     low_risk_list = sorted(
         low_risk_list, key=lambda x: (
             x[MOTH_RISK_IDX],
-            PRIORITY_COLOR.index(x[MOTH_BRACELET_IDX]),  # prioridade da pulseira
-            -int(x[MOTH_BRACELET_IDX]) if x[MOTH_BRACELET_IDX].isdigit() else 0,  # idade em ordem decrescente
+            PRIORITY_COLOR.index(x[MOTH_BRACELET_IDX]),  # bracelet priority
+            -int(x[MOTH_BRACELET_IDX]) if x[MOTH_BRACELET_IDX].isdigit() else 0,  # age in descending order
             x[MOTH_NAME_IDX]
         )
     )
 
-    # Adiciona critério de desempate para nome lexicográfico
+    # Adds tiebreaker criteria for lexicographic name
     final_list.extend(high_risk_list)
     final_list.extend(medium_risk_list)
     final_list.extend(low_risk_list)
@@ -310,14 +317,15 @@ def priorityRequests(requests):
 
 def checkExtension(files):
     """
-    Verifica a extensão dos arquivos na lista. Se um arquivo não tiver a extensão '.txt',
-    adiciona automaticamente a extensão '.txt'. Retorna a lista atualizada de arquivos.
+    Checks the extension of files in the list. If a file does not have the
+    extension '.txt', automatically adds the '.txt' extension. Returns the
+    updated list of files. 
 
-    Parâmetros:
-    - files (list): Lista de nomes de arquivos.
+    Parameters:
+    - files (list): List of file names.
 
     Retorna:
-    list: Lista atualizada de nomes de arquivos com extensão '.txt'.
+    list: Updated list of filenames with '.txt' extension.
     """
     new_files = []
     for file in files:
