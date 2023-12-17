@@ -33,15 +33,17 @@ def timeToMinutes(time):
 
 def timeToDailyPause(time):
     """
-    Calcula o tempo restante até a próxima pausa com base no tempo atual em minutos.
+    Calculates the time remaining until the next break based on the 
+    current time in minutes
+    
+    Parameters:
+    - time (int): The current time in minutes
 
-    Parâmetros:
-    - time (int): O tempo atual em minutos.
-
-    Retorna:
-    int: O tempo restante até a próxima pausa. Se o tempo atual for igual ou superior a 240 minutos,
-    retorna a diferença entre 480 minutos e o tempo atual. Caso contrário, retorna a diferença
-    entre 240 minutos e o tempo atual.
+    Returns:
+    int: The time remaining until the next break. If the current time
+    is 240 minutes or more, returns the diference between 480 minutes
+    and the current time. Otherwise, return the difference between 240
+    minutes and the current time.
     """
     time = int(time)
     
@@ -52,13 +54,14 @@ def timeToDailyPause(time):
 
 def timeToWeeklyPause(time):
     """
-    Calcula o tempo acumulado até a próxima pausa semanal com base no tempo atual em minutos.
+    Calculates the accumulated time until the next weekly break based on 
+    the current time in minutes
 
-    Parâmetros:
-    - time (str): O tempo atual no formato 'hh:mm'.
+    Parameters:
+    - time (str): The current time in 'hh:mm' format.
 
     Retorna:
-    int: O tempo acumulado até a próxima pausa semanal em minutos.
+    int: The accumulated time until the next weekly break in minutes
     """
     time = timeToMinutes(time)
 

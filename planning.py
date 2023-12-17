@@ -45,19 +45,22 @@ def priorityDoctors(doctors):
 def priorityRequests(requests):
     
     """
-    Organiza uma lista de sublistas com informações de risco e pulseira por prioridade.
-
-    A função recebe uma lista de sublistas, onde cada sublista contém informações.
-    As informações de risco estão no índice 3 e as informações da pulseira estão no índice 2.
-    A função organiza a lista em três categorias de risco: 'alto', 'médio' e 'baixo'.
-    Em seguida, organiza cada categoria pelo valor da pulseira em ordem decrescente.
-
-    Parâmetros:
-    - list: Uma lista de sublistas contendo informações. Cada sublista deve ter pelo menos
-            os índices 2 (pulseira) e 3 (risco).
-
-    Retorna:
-    Uma lista organizada em ordem de prioridade, primeiro por risco e depois por cor da pulseira.
+    Organizes a list of sublists with risk informations and bracelet by 
+    priority.
+    The function receives a list of sublists, where each sublist contains 
+    informations.
+    Risk information is in index 3 and bracelet information is in index 2.
+    The function organizes a list into tree risk categories: 'high', 
+    'medium' and 'low';
+    Then, organize each category by bracelet value in descending order.
+    
+    Parameters:
+    - list: A list of sublists containing information. 
+    Each sublist must have at least indexes 2 (bracelet) and 3 (risk).
+   
+    Returns:
+    A list organized in order of priority, first by risk and then by bracelet color
+    
     """
      
     high_risk_list = []
