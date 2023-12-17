@@ -83,6 +83,7 @@ def getHeader(filename):
     with open(filename, 'r') as file:
         lines = file.readlines()
         header = lines[:NUM_HEADER_LINES]
+        header[NUM_TIME_LINE] = dateTime.sumHours(header[NUM_TIME_LINE], TIME_30_MIN) + '\n'
     return ''.join(header)
 
 def readScheduleFile(file):

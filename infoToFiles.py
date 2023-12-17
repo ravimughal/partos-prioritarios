@@ -5,8 +5,6 @@
 # 75000 Alberto Albertino 
 # 75001 Maria Marisa
 
-import planning
-import infoFromFiles
 import dateTime
 from constants import *
 
@@ -30,11 +28,14 @@ def writeScheduleFile(sched, header, fileName):
     the assistances as ordered head to tail in sched.
     """
     with open(fileName, 'w', encoding='utf-8') as file:
+        
         file.write(header)
-
         for row in sched:
             line = ', '.join(map(str, row))
             file.write(line + '\n')
+        
+        
+
 
 def formatNameFile(file):
     current_time = dateTime.extractTime(file)
@@ -55,4 +56,3 @@ def writeDoctorsFile(doctors, header, fileName):
         for row in doctors:
             line = ', '.join(map(str, row))
             file.write(line + '\n')
-
