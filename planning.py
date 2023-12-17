@@ -207,7 +207,7 @@ def checkDoctors(doctor):
     - list: A lista 'doctor' modificada com as ações correspondentes aplicadas.
     """
 
-    if doctor[DOCT_DAILYWORK_IDX] > 240 and doctor[DOCT_DAILYWORK_IDX] <= 260:
+    if doctor[DOCT_DAILYWORK_IDX] >= 240 and doctor[DOCT_DAILYWORK_IDX] < 260:
         doctor[DOCT_CHILDBIRTH_IDX] = dateTime.sumHours(doctor[DOCT_CHILDBIRTH_IDX], BREAK_TIME)
     
     hour = dateTime.timeToMinutes(doctor[DOCT_WEEKLYWORK_IDX])
