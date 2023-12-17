@@ -1,9 +1,12 @@
 #-*- coding: utf-8 -*-
 
 # 2023-2024 Programação 1 (LTI)
-# Grupo 546
-# 75000 Alberto Albertino 
-# 75001 Maria Marisa
+# Grupo 141
+# 62504 Ravi Mughal 
+# 62496 Vitor Augusto
+
+import dateTime
+from constants import *
 
 
 
@@ -24,8 +27,32 @@ def writeScheduleFile(sched, header, fileName):
     the lines in this file keeps the ordering top to bottom of 
     the assistances as ordered head to tail in sched.
     """
+    with open(fileName, 'w', encoding='utf-8') as file:
+        
+        file.write(header)
+        for row in sched:
+            line = ', '.join(map(str, row))
+            file.write(line + '\n')
+        
+        
 
 
+def formatNameFile(file):
+    current_time = dateTime.extractTime(file)
+
+    if current_time:
+        new_time = dateTime.sumHours(current_time, TIME_30_MIN)
+        new_file = file.replace(current_time, new_time)
+
+        return new_file
+    else:
+        print("Erro: Não foi possível extrair o horário do nome do arquivo.")
+        return None
 
 def writeDoctorsFile(doctors, header, fileName):
-    pass
+    with open(fileName, 'w', encoding='utf-8') as file:
+        file.write(header)
+
+        for row in doctors:
+            line = ', '.join(map(str, row))
+            file.write(line + '\n')

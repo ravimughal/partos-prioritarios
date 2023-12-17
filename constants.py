@@ -1,9 +1,9 @@
 #-*- coding: utf-8 -*-
 
 # 2023-2024 Programação 1 (LTI)
-# Grupo 546
-# 75000 Alberto Albertino 
-# 75001 Maria Marisa
+# Grupo 141
+# 62504 Ravi Mughal 
+# 62496 Vitor Augusto
 
 
 
@@ -11,18 +11,29 @@
 
 # You should define here as many constants as you need to keep your 
 # code clean and legible
-
-
+HOUR_CHILDBIRTH = '00h20'
+MIN_CHILDBIRTH = 20
+BREAK_TIME = '1h00'
 
 # Value for weekly pause in the output schedule
-WKL_PAUSE = "weekly leave"
-
+WKL_PAUSE = 'weekly leave'
+WKL_WORK = 2400 #minutes
 
 
 # In a file:
 # Number of header's lines
 NUM_HEADER_LINES = 7
 
+# Number of hour line
+NUM_TIME_LINE = 3
+
+# Next Time
+TIME_30_MIN = '00h30'
+
+
+# In a schedule list:
+SCHED_TIME = 0
+SCHED_NAME_MOTH = 1
 
 # In a doctor's list:
 # Index of the element with the docotor's name
