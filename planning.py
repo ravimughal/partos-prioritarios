@@ -1,3 +1,10 @@
+#-*- coding: utf-8 -*-
+
+# 2023-2024 Programação 1 (LTI)
+# Grupo 141
+# 62504 Ravi Mughal 
+# 62496 Vitor Augusto
+
 import infoFromFiles
 import dateTime
 from constants import *
@@ -299,6 +306,16 @@ def priorityRequests(requests):
     return final_list
 
 def checkExtension(files):
+    """
+    Verifica a extensão dos arquivos na lista. Se um arquivo não tiver a extensão '.txt',
+    adiciona automaticamente a extensão '.txt'. Retorna a lista atualizada de arquivos.
+
+    Parâmetros:
+    - files (list): Lista de nomes de arquivos.
+
+    Retorna:
+    list: Lista atualizada de nomes de arquivos com extensão '.txt'.
+    """
     new_files = []
     for file in files:
         if not file.endswith('.txt'):

@@ -1,9 +1,9 @@
 #-*- coding: utf-8 -*-
 
 # 2023-2024 Programação 1 (LTI)
-# Grupo 546
-# 75000 Alberto Albertino 
-# 75001 Maria Marisa
+# Grupo 141
+# 62504 Ravi Mughal 
+# 62496 Vitor Augusto
 
 import re
 from constants import *

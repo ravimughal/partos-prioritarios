@@ -1,9 +1,9 @@
 #-*- coding: utf-8 -*-
 
 # 2023-2024 Programação 1 (LTI)
-# Grupo 546
-# 75000 Alberto Albertino 
-# 75001 Maria Marisa
+# Grupo 141
+# 62504 Ravi Mughal 
+# 62496 Vitor Augusto
 
 import infoFromFiles
 import planning
@@ -79,4 +79,4 @@ except FileNotFoundError:
     for line in ascii_file_not_found:
         print(line)
     
-    print('Make sure you follow the python3 refresh.py inputFile1 inputFile2 inputFile3')
+    print(FileNotFoundError('Make sure you follow the python3 refresh.py inputFile1 inputFile2 inputFile3'))
