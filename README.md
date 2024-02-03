@@ -4,6 +4,12 @@
     <img src='https://img.shields.io/static/v1?label=license&message=MIT&color=green&style=flat-square'>
 </div>
 
+
+<div style ='display = flex; align-items = center; margin: 15px 0'>
+    <img src ='https://media.discordapp.net/attachments/638027068420128806/1203406184359399484/Mothers_Day_pregnant_woman_illustration.png?ex=65d0fa58&is=65be8558&hm=3f722c6888137000831ab142b31b4874e8c40c7691054f01222140a39ec8fd72&=&format=webp&quality=lossless&width=473&height=473' width = '50%'>
+</div>
+
+
 ## Sobre
 
 Este projeto foi desenvolvido como parte de um trabalho acadêmico para a faculdade e tem como objetivo criar um sistema de gerenciamento de partos em níveis de prioridade, considerando a disponibilidade de médicos e diferentes níveis de capacidades. Além disso, o sistema também abrange a gestão de horas de trabalho, horário de funcionamento do hospital, horas trabalhadas pelos médicos e suas respectivas folgas semanais.
